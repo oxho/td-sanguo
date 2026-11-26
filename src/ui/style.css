@@ -18,15 +18,19 @@
   --bz: linear-gradient(160deg, #fff0bf, #e2b866 18%, #8f5f1e 42%, #d9ad5c 58%, #6b4211 80%, #e8c27a);
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: #120e0c; color: var(--paper); }
+html, body {
+  margin: 0; background: #120e0c; color: var(--paper);
+  position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden;
+}
 body { font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; }
 button, input { font-family: inherit; }
-#app { height: 100%; display: grid; place-items: center; }
+#app { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+#fit { position: relative; flex: 0 0 auto; overflow: hidden; }
 #frame {
-  width: 720px; height: 1280px; position: relative; overflow: hidden;
+  width: 720px; height: 1280px; position: absolute; left: 0; top: 0; overflow: hidden;
+  transform-origin: 0 0;
   background: #1a120e url("/assets/ui/mat_wood.jpg") center/cover;
-  transform-origin: center center;
-  box-shadow: 0 0 0 10px #2a1608, 0 30px 80px rgba(0,0,0,.45);
+  box-shadow: 0 0 0 10px #2a1608;
 }
 .screen { position: absolute; inset: 0; display: flex; flex-direction: column; }
 .msz { font-family: "Ma Shan Zheng", "Noto Serif SC", cursive; font-weight: 400; }
@@ -138,6 +142,16 @@ h1, h2, .gold {
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
 .float-panel { position: absolute; left: 16px; right: 16px; bottom: 250px; pointer-events: auto; }
+.guide-tip { position: absolute; left: 12px; right: 12px; top: 86px; pointer-events: auto; z-index: 4; }
+.ring-btn {
+  position: absolute; width: 68px; height: 68px; min-width: 68px; min-height: 68px;
+  border-radius: 50%; margin: 0; padding: 4px; font-size: 14px; line-height: 1.15;
+  z-index: 6; pointer-events: auto;
+}
+.ring-btn.sel { box-shadow: 0 0 0 3px #fff2c0, 0 0 0 6px #c8281e; }
+.ring-btn:active { transform: none; }
+#btn-start { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 148px; line-height: 1.2; }
+#overlay { position: absolute; inset: 0; pointer-events: none; }
 .choice { min-width: 150px; min-height: 120px; text-align: left; }
 .banner {
   position: absolute; top: 96px; left: 50%; transform: translateX(-50%);

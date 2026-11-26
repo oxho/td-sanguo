@@ -757,8 +757,8 @@ export function step(sim: Sim) {
   for (const sol of s.soldiers) { sol.px = sol.x; sol.py = sol.y; }
   s.banners = s.banners.filter((b) => b.until > s.time);
   if (s.phase === 'prep') {
-    if (!s.countdownHold) s.countdown -= DT;
-    if (s.countdown <= 0) beginWave(sim);
+    if (!s.countdownHold) s.countdown = Math.max(0, s.countdown - DT);
+    if (!s.countdownHold && s.countdown <= 0) beginWave(sim);
     return;
   }
   tickDots(sim);

@@ -26,14 +26,22 @@ type Route =
 export function boot() {
   const app = document.querySelector('#app');
   if (!app) return;
+  const fitHost = document.createElement('div');
+  fitHost.id = 'fit';
   const frame = document.createElement('div');
   frame.id = 'frame';
-  app.appendChild(frame);
+  fitHost.appendChild(frame);
+  app.appendChild(fitHost);
   const fit = () => {
-    const s = Math.min(window.innerWidth / 720, window.innerHeight / 1280);
-    frame.style.transform = `scale(${s})`;
+    const vw = Math.min(window.innerWidth, window.visualViewport?.width ?? window.innerWidth);
+    const vh = Math.min(window.innerHeight, window.visualViewport?.height ?? window.innerHeight);
+    const s = Math.min(vw / 720, vh / 1280);
+    fitHost.style.width = `${720 * s}px`;
+    fitHost.style.height = `${1280 * s}px`;
+    frame.style.setProperty('zoom', String(s));
   };
   window.addEventListener('resize', fit);
+  window.visualViewport?.addEventListener('resize', fit);
   fit();
 
   let meta = loadMeta();
@@ -367,20 +375,6 @@ export function boot() {
 
     let aimIndex = 0;
     function pickMap(x: number, y: number) {
-      if (stepName === 'build') {
-        const pad = nearestPad(x, y);
-        if (pad && !sim.state.towers.some((t) => t.padId === pad.id)) {
-          view.selectedTower = null;
-          view.selectedHero = null;
-          const res = act({ type: 'build', padId: pad.id, towerId: 'jianlou' });
-          if (res.ok) {
-            builtId = sim.state.towers[sim.state.towers.length - 1]?.id ?? 0;
-            stepName = 'start';
-            dispatch(sim, { type: 'hold', on: true });
-          }
-        }
-        return;
-      }
       if (stepName === 'start') return;
       if (view.selectedHero) {
         const hero = sim.state.heroes.find((h) => h.id === view.selectedHero);
@@ -409,7 +403,11 @@ export function boot() {
       const pad = nearestPad(x, y);
       if (pad && !sim.state.towers.some((t) => t.padId === pad.id)) {
         view.selectedTower = null;
-        view.range = null;
+        view.selectedHero = null;
+        if (overlay.dataset.pad !== pad.id) {
+          delete overlay.dataset.choice;
+          view.range = null;
+        }
         overlay.dataset.pad = pad.id;
         sig = '';
         return;
@@ -418,6 +416,7 @@ export function boot() {
       view.selectedHero = null;
       view.range = null;
       delete overlay.dataset.pad;
+      delete overlay.dataset.choice;
     }
 
     function nearestPad(x: number, y: number) {
@@ -450,9 +449,13 @@ export function boot() {
         preview.textContent = icons || '—';
       }
       if (startBtn) {
-        const bonus = s.phase === 'prep' ? Math.max(0, Math.floor(s.countdown)) * 2 : 0;
+        const secondsLeft = s.phase === 'prep' ? Math.max(0, Math.floor(s.countdown + 1e-6)) : 0;
+        const bonus = secondsLeft * 2;
         startBtn.disabled = s.phase !== 'prep' || stepName === 'build';
-        startBtn.innerHTML = s.phase === 'prep' ? `开始下一波${bonus ? `<br><span class="small">提前 +${bonus}</span>` : ''}` : '交战中';
+        const main = startBtn.querySelector<HTMLElement>('#start-main');
+        const extra = startBtn.querySelector<HTMLElement>('#start-bonus');
+        if (main) main.textContent = s.phase === 'prep' ? '开始下一波' : '交战中';
+        if (extra) extra.textContent = bonus > 0 ? `提前 +${bonus}` : '';
       }
       s.cards.forEach((card, i) => {
         const btn = bar.querySelector<HTMLButtonElement>(`[data-card="${i}"]`);
@@ -489,7 +492,7 @@ export function boot() {
         host.innerHTML = bannerText ? `<div class="banner">${bannerText}</div>` : '';
       }
       const nextSig = [
-        s.phase, s.paused, stepName, view.selectedTower, overlay.dataset.pad ?? '', aiming ? 'aim' : '',
+        s.phase, s.paused, stepName, view.selectedTower, overlay.dataset.pad ?? '', overlay.dataset.choice ?? '', aiming ? 'aim' : '',
         s.decreeOffer?.join(',') ?? '', s.towers.map((t) => `${t.id}:${t.level}:${t.branch}:${t.priority}`).join('|'),
         overlay.dataset.debug ?? '',
       ].join('#');
@@ -509,7 +512,7 @@ export function boot() {
       wave.innerHTML = `
         <div style="flex:1" class="small"><div>下一波</div><div id="preview"></div></div>
         <div class="wrap" id="pacts"></div>
-        <button class="btn" id="btn-start"></button>`;
+        <button class="btn" id="btn-start"><span id="start-main">开始下一波</span><span id="start-bonus" class="small"></span></button>`;
       wave.querySelector('#btn-start')?.addEventListener('click', () => {
         if (stepName === 'build') return;
         const res = act({ type: 'start' });
@@ -601,13 +604,13 @@ export function boot() {
         return;
       }
       if (stepName !== 'done') {
-        const text = stepName === 'build' ? '点亮着 + 的塔基，建造箭楼。'
+        const text = stepName === 'build' ? '点塔基，在环形菜单里选箭楼，看射程后再确认。'
           : stepName === 'start' ? '点「开始下一波」。提前开波每剩 1 秒 +2 军资。'
           : stepName === 'upgrade' ? '点刚才的箭楼，再点升级。'
           : '等敌人走进圈里，放火攻。取消或打空不进冷却。';
         overlay.insertAdjacentHTML('beforeend', '');
         const tip = document.createElement('div');
-        tip.className = 'float-panel panel';
+        tip.className = 'guide-tip panel';
         tip.innerHTML = `<strong>引导</strong><p class="small">${text}</p><button class="btn ink" id="skip-guide">跳过引导</button>`;
         overlay.appendChild(tip);
         tip.querySelector('#skip-guide')?.addEventListener('click', () => {
@@ -620,34 +623,67 @@ export function boot() {
         });
       }
       const padId = overlay.dataset.pad;
-      if (padId && stepName !== 'build') {
+      if (padId) {
         const u = unlocks(meta);
-        const pad = sim.map.pads.find((p) => p.id === padId)!;
-        const box = document.createElement('div');
-        box.className = 'float-panel panel';
-        box.innerHTML = `<strong>建造</strong><div class="wrap">${u.towers.map((id) => {
-          const def = towerById(id);
-          const poor = s.munition < def.cost;
-          return `<button class="btn ${poor ? 'dis' : ''}" data-build="${id}" ${poor ? 'disabled' : ''}>${def.name}<br>${def.cost}</button>`;
-        }).join('')}<button class="btn ink" id="close-build">取消</button></div>
-          <p class="small">选塔后先看射程，再确认。取消不算建造。</p>`;
-        overlay.appendChild(box);
-        box.querySelectorAll<HTMLButtonElement>('[data-build]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const id = btn.dataset.build!;
+        const pad = sim.map.pads.find((p) => p.id === padId);
+        if (pad) {
+          const choice = overlay.dataset.choice ?? '';
+          const origin = { x: 90 + pad.x * 60, y: 80 + pad.y * 60 };
+          const slots = layoutRing(origin.x, origin.y, u.towers.length + 1);
+          u.towers.forEach((id, i) => {
             const def = towerById(id);
-            view.range = { x: pad.x, y: pad.y, r: towerStat(id, 1, '').range };
-            const ask = document.createElement('div');
-            ask.className = 'row';
-            ask.innerHTML = `<button class="btn" id="do-build">确认 ${def.name}</button>`;
-            box.appendChild(ask);
-            ask.querySelector('#do-build')?.addEventListener('click', () => {
-              const res = act({ type: 'build', padId, towerId: id });
-              if (res.ok) { delete overlay.dataset.pad; view.range = null; sig = ''; }
+            const poor = s.munition < def.cost;
+            const btn = document.createElement('button');
+            btn.className = `btn ring-btn${choice === id ? ' sel' : ''}${poor ? ' dis' : ''}`;
+            btn.dataset.build = id;
+            btn.disabled = poor;
+            btn.style.left = `${slots[i]!.x - 34}px`;
+            btn.style.top = `${slots[i]!.y - 34}px`;
+            btn.innerHTML = `${def.name}<br>${def.cost}`;
+            btn.addEventListener('click', () => {
+              overlay.dataset.choice = id;
+              view.range = { x: pad.x, y: pad.y, r: towerStat(id, 1, '').range };
+              sig = '';
             });
+            overlay.appendChild(btn);
           });
-        });
-        box.querySelector('#close-build')?.addEventListener('click', () => { delete overlay.dataset.pad; view.range = null; sig = ''; });
+          const cancel = document.createElement('button');
+          cancel.className = 'btn ink ring-btn';
+          cancel.id = 'close-build';
+          cancel.textContent = '取消';
+          const cancelSlot = slots[u.towers.length]!;
+          cancel.style.left = `${cancelSlot.x - 34}px`;
+          cancel.style.top = `${cancelSlot.y - 34}px`;
+          cancel.addEventListener('click', () => {
+            delete overlay.dataset.pad;
+            delete overlay.dataset.choice;
+            view.range = null;
+            sig = '';
+          });
+          overlay.appendChild(cancel);
+          if (choice && u.towers.includes(choice)) {
+            const ok = document.createElement('button');
+            ok.className = 'btn ring-btn';
+            ok.id = 'do-build';
+            ok.textContent = '确认';
+            ok.style.left = `${origin.x - 34}px`;
+            ok.style.top = `${origin.y - 34}px`;
+            ok.addEventListener('click', () => {
+              const res = act({ type: 'build', padId, towerId: choice });
+              if (!res.ok) return;
+              if (stepName === 'build' && choice === 'jianlou') {
+                builtId = s.towers[s.towers.length - 1]?.id ?? 0;
+                stepName = 'start';
+                dispatch(sim, { type: 'hold', on: true });
+              }
+              delete overlay.dataset.pad;
+              delete overlay.dataset.choice;
+              view.range = null;
+              sig = '';
+            });
+            overlay.appendChild(ok);
+          }
+        }
       }
       const tower = s.towers.find((t) => t.id === view.selectedTower);
       if (tower) {
@@ -891,10 +927,19 @@ export function boot() {
       const text = frame.querySelector<HTMLTextAreaElement>('#dump')!.value;
       const next = importMeta(text);
       if (!next) { toast('格式不对，原档还在'); return; }
-      meta = next;
-      persist();
-      toast('已导入');
-      draw();
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.innerHTML = `<div class="panel"><h2>覆盖当前存档？</h2>
+        <p>确认后，这台浏览器里的进度会被文本框里的存档替换。取消则保持现在的进度。</p>
+        <div class="row"><button class="btn ink" id="import-cancel">取消</button><button class="btn" id="import-ok">确认覆盖</button></div></div>`;
+      frame.appendChild(modal);
+      modal.querySelector('#import-cancel')?.addEventListener('click', () => modal.remove());
+      modal.querySelector('#import-ok')?.addEventListener('click', () => {
+        meta = next;
+        persist();
+        toast('已导入');
+        draw();
+      });
     });
     frame.querySelector('#reset')?.addEventListener('click', () => {
       if (!confirm('清除这台浏览器上的存档？')) return;
@@ -914,6 +959,27 @@ export function boot() {
   }
 
   draw();
+}
+
+/** Place ring icons around a pad, then shift the whole ring so every icon stays inside 720×1280. */
+function layoutRing(cx: number, cy: number, count: number): { x: number; y: number }[] {
+  const radius = 96;
+  const half = 34;
+  const pts = Array.from({ length: count }, (_, i) => {
+    const ang = -Math.PI / 2 + (i * 2 * Math.PI) / count;
+    return { x: cx + Math.cos(ang) * radius, y: cy + Math.sin(ang) * radius };
+  });
+  const minX = Math.min(...pts.map((p) => p.x - half));
+  const maxX = Math.max(...pts.map((p) => p.x + half));
+  const minY = Math.min(...pts.map((p) => p.y - half));
+  const maxY = Math.max(...pts.map((p) => p.y + half));
+  let dx = 0;
+  let dy = 0;
+  if (minX < 8) dx = 8 - minX;
+  if (maxX + dx > 712) dx = 712 - maxX;
+  if (minY < 8) dy = 8 - minY;
+  if (maxY + dy > 1272) dy = 1272 - maxY;
+  return pts.map((p) => ({ x: p.x + dx, y: p.y + dy }));
 }
 
 function navBtn(name: string, mark: string, label: string, active: string) {
