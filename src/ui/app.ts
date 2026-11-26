@@ -144,17 +144,17 @@ export function boot() {
       const rec = meta.levels[selected];
       const open = levelUnlocked(meta, selected);
       frame.innerHTML = `
-        <div class="screen">
+        <div class="screen level-select">
           <header class="topbar">
             <button class="btn ink" data-go="menu">返回</button>
             <div class="grow center"><strong>选择关卡</strong></div>
             <div class="pill">${zh.talisman} ${meta.talisman}</div>
           </header>
-          <div class="tabs" style="padding:8px 12px">
+          <div class="tabs">
             ${CHAPTERS.map((c) => `<button class="btn ${c.id === 1 ? '' : 'ink dis'}" ${c.id === 1 ? '' : 'disabled'}>${c.numeral} · ${c.name}${c.id === 1 ? '' : ' 未开放'}</button>`).join('')}
           </div>
-          <div class="grow">
-            <h2 class="msz" style="font-size:36px">${zh.chapter1}</h2>
+          <div class="level-body">
+            <h2 class="msz">${zh.chapter1}</h2>
             <div class="nodes panel">
               ${playable.map((l, i) => {
                 const spot = spots[i] ?? [50, 50];
@@ -164,7 +164,7 @@ export function boot() {
                 return `<button class="node btn ${kind} ${unlocked ? '' : 'lock'} ${l.id === selected ? 'sel' : ''}" data-level="${l.id}" style="left:${spot[0]}%;top:${spot[1]}%"><span>${l.id.split('-')[1]}${unlocked ? '' : ' 锁'}</span></button><div class="stars" style="position:absolute;left:${spot[0]}%;top:calc(${spot[1]}% + 96px)">${stars}</div>`;
               }).join('')}
             </div>
-            <div class="panel" style="margin-top:10px">
+            <div class="panel detail">
               <div class="row">
                 <strong style="font-size:28px">${row.id} ${row.name}</strong>
                 <span class="muted">${row.kind} · ${loadWaveCount(row.id)} 波 · 初始军资 ${row.munition}</span>
@@ -504,13 +504,13 @@ export function boot() {
     function buildChrome() {
       const s = sim.state;
       top.innerHTML = `
-        <div class="pill">城门 <span id="hp-text"></span><span style="display:inline-block;width:70px;height:8px;background:#333;border-radius:4px;margin-left:6px"><i id="hp-fill" style="display:block;height:100%;width:0;background:#7dce6a"></i></span></div>
+        <div class="pill">城门 <span id="hp-text"></span><span style="display:inline-block;width:48px;height:8px;background:#333;border-radius:4px;margin-left:4px"><i id="hp-fill" style="display:block;height:100%;width:0;background:#7dce6a"></i></span></div>
         <div class="pill">军资 <span id="gold-text"></span></div>
-        <div class="grow center"><strong id="wave-label"></strong></div>
+        <div class="battle-title"><strong id="wave-label"></strong></div>
         <button class="btn ink" id="btn-pause">暂停</button>`;
       top.querySelector('#btn-pause')?.addEventListener('click', () => { s.paused = true; saveRun(sim, lastPrewave); sig = ''; });
       wave.innerHTML = `
-        <div style="flex:1" class="small"><div>下一波</div><div id="preview"></div></div>
+        <div class="wave-preview"><div class="kicker">下一波</div><div id="preview"></div></div>
         <div class="wrap" id="pacts"></div>
         <button class="btn" id="btn-start"><span id="start-main">开始下一波</span><span id="start-bonus" class="small"></span></button>`;
       wave.querySelector('#btn-start')?.addEventListener('click', () => {
@@ -739,17 +739,6 @@ export function boot() {
       }
     }
 
-    top.addEventListener('click', (ev) => {
-      const t = ev.target as HTMLElement;
-      if (t.id === 'btn-debug' || t.dataset.debug === '1') overlay.dataset.debug = overlay.dataset.debug === '1' ? '0' : '1';
-    });
-    // debug button lives in the top bar, which is rewritten every frame; add it in paint via a fixed control
-    const dbg = document.createElement('button');
-    dbg.className = 'btn ink';
-    dbg.textContent = '调试';
-    dbg.style.cssText = 'position:absolute;top:210px;left:8px;z-index:4;pointer-events:auto;min-width:90px;min-height:90px';
-    frame.querySelector('.hud')?.appendChild(dbg);
-    dbg.addEventListener('click', () => { overlay.dataset.debug = overlay.dataset.debug === '1' ? '0' : '1'; sig = ''; });
   }
 
   function drawResult(reward: ReturnType<typeof grantRewards>) {

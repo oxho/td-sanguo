@@ -106,6 +106,14 @@ h1, h2, .gold {
 .tabs { display: flex; gap: 8px; }
 .tabs button { flex: 1; }
 .nodes { position: relative; height: 640px; margin-top: 8px; }
+.level-select { min-height: 0; }
+.level-select .tabs { flex: 0 0 auto; padding: 4px 12px; }
+.level-select .tabs button { white-space: nowrap; font-size: 16px; padding: 4px 8px; }
+.level-body { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 2px 12px 8px; overflow: hidden; }
+.level-body h2 { font-size: 28px; flex: 0 0 auto; }
+.level-body .nodes { flex: 1 1 auto; height: auto; min-height: 0; margin-top: 4px; }
+.level-body .detail { flex: 0 0 auto; margin-top: 6px; padding: 8px 12px; }
+.level-body .detail p { margin: 2px 0; }
 .node {
   position: absolute; width: var(--tap); height: var(--tap); border-radius: 50%;
   display: grid; place-items: center; font-weight: 900;
@@ -128,11 +136,30 @@ h1, h2, .gold {
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .hud button, .hud .panel, .hud .hit { pointer-events: auto; }
 .battle-top, .wavebar, .actionbar { position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; }
-.battle-top { top: 0; height: 96px; background: linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.45)), url("/assets/ui/mat_wood.jpg"); }
-.wavebar { top: 1056px; height: 112px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding: 6px 8px; }
-.wavebar .small { min-width: 0; flex: 1; }
-.wavebar #preview { line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.wavebar #pacts { flex-wrap: nowrap; }
+.battle-top {
+  top: 0; height: 96px; gap: 8px; padding: 3px 10px; overflow: hidden;
+  background-color: #1a120e;
+  background-image: linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.45)), url("/assets/ui/mat_wood.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.battle-top .pill { height: 40px; padding: 0 10px; gap: 6px; font-size: 15px; flex: 0 0 auto; }
+.battle-title {
+  flex: 1 1 auto; min-width: 0; text-align: center; font-size: 18px; font-weight: 900; line-height: 1.25;
+  color: #fff6df; background: rgba(16, 10, 6, .86); border: 2px solid #e2b866; border-radius: 12px;
+  padding: 4px 8px;
+}
+#btn-pause { width: 90px; min-width: 90px; height: 90px; padding: 4px; }
+.wavebar { top: 1056px; height: 112px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding: 6px 14px; overflow: hidden; }
+.wave-preview {
+  flex: 1 1 240px; min-width: 210px; align-self: center;
+  background: rgba(251, 236, 204, .94); color: #2a1608;
+  border-radius: 10px; padding: 4px 8px; border: 2px solid rgba(90, 48, 12, .35);
+}
+.wave-preview .kicker { font-size: 14px; font-weight: 900; line-height: 1.2; }
+.wavebar #preview { font-size: 15px; line-height: 1.25; white-space: normal; overflow: visible; }
+.wavebar #pacts { flex-wrap: nowrap; flex: 0 0 auto; }
 .actionbar { top: 1168px; height: 112px; align-items: center; background: url("/assets/ui/mat_earth.jpg") center/cover; padding: 6px 8px; }
 .actionbar .skill { height: 100px; padding: 4px; }
 .actionbar .hero-face { width: 44px; height: 44px; font-size: 18px; }
@@ -144,7 +171,8 @@ h1, h2, .gold {
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
 .float-panel { position: absolute; left: 16px; right: 16px; bottom: 250px; pointer-events: auto; }
-.guide-tip { position: absolute; left: 12px; right: 108px; top: 104px; pointer-events: auto; z-index: 4; }
+.guide-tip { position: absolute; left: 292px; right: 12px; top: 104px; pointer-events: none; z-index: 7; }
+.guide-tip button { pointer-events: auto; position: relative; z-index: 1; }
 .ring-btn {
   position: absolute; width: var(--tap); height: var(--tap); min-width: var(--tap); min-height: var(--tap);
   border-radius: 50%; margin: 0; padding: 4px; font-size: 14px; line-height: 1.15;
