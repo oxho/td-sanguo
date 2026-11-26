@@ -131,7 +131,7 @@ h1, h2, .gold {
 }
 .battle { position: absolute; inset: 0; }
 .map-slot { position: absolute; left: 0; top: 96px; width: 720px; height: 960px; z-index: 1; }
-.map-slot canvas { display: block; }
+.map-slot canvas { display: block; width: 720px !important; height: 960px !important; margin: 0 !important; }
 .map-hit { position: absolute; inset: 0; }
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .hud button, .hud .panel, .hud .hit { pointer-events: auto; }

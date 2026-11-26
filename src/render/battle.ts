@@ -343,8 +343,10 @@ export function mountBattle(parent: HTMLElement, sim: Sim, view: BattleView, hoo
     backgroundColor: '#1a140f',
     banner: false,
     scale: {
-      mode: Phaser.Scale.EXPAND,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
+      // The frame already scales with CSS zoom. EXPAND reads that zoomed box
+      // and shrinks the canvas a second time, so pads and the ring miss.
+      mode: Phaser.Scale.NONE,
+      autoCenter: Phaser.Scale.NO_CENTER,
       width: 720,
       height: 960,
     },
