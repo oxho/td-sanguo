@@ -1,0 +1,4236 @@
+{
+ "enemy_names": {
+  "luanbing": "乱兵",
+  "shanzei": "山贼",
+  "ying": "斥候鹰",
+  "daodun": "刀盾兵",
+  "qingqi": "轻骑",
+  "gongshou": "弓手队",
+  "junyi": "军医",
+  "zhongqi": "重骑",
+  "fubing": "伏兵",
+  "mingluo": "鸣锣兵",
+  "chongche": "冲车",
+  "tengpai": "藤牌兵"
+ },
+ "boss_names": {
+  "duwei": "乱军都尉",
+  "xiaowei": "铁骑校尉",
+  "touling": "水寨大头领"
+ },
+ "rules": {
+  "dongfeng": "关卡字段 dongfeng 为 true 时开启东风（规则见 PRD 第 9 节、10.2）。开启的关卡：3-4、3-6、3-7、3-9、3-10。",
+  "boss_hp_mul": "waves[].boss 为 [id, hp_mul]。hp_mul 是出场生命上限相对正式 Boss 生命的系数；有护盾则护盾上限同样乘该系数；护甲、速度、赏金、漏怪不乘。",
+  "boss_probe": "Boss 关第 6 波 hp_mul=0.5。撤退线是已折减后生命上限的 50%（即正式生命的 25%），不是正式生命的 50%，也不把两个 50% 再乘一次。不进入阶段 2。撤退算击败，给全额赏金。",
+  "boss_preview": "精英关第 10 波 hp_mul=0.6：可击破，不撤退，不进入阶段 2。出现在每章第 5、第 8 关。",
+  "boss_escort": "3-10 第 12 波护卫铁骑校尉 hp_mul=0.5：只折减出场生命（和护盾，若有），战斗到被击败或到达城门，不撤退。",
+  "dual_entrance": "地图为 M2 或 M2b 时，第 3、6、9 波（Boss 关另有第 12 波）两个入口同时出怪。从 2-1 起生效。"
+ },
+ "levels": [
+  {
+   "id": "1-1",
+   "chapter": 1,
+   "map": "M1",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 5,
+      "shanzei": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 5,
+      "shanzei": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 6,
+      "shanzei": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-2",
+   "chapter": 1,
+   "map": "M1",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2,
+      "ying": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2,
+      "ying": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "ying": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 5,
+      "shanzei": 3,
+      "ying": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-3",
+   "chapter": 1,
+   "map": "M1b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-4",
+   "chapter": 1,
+   "map": "M1b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "daodun": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "daodun": 1,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "daodun": 1,
+      "qingqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "daodun": 1,
+      "qingqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "daodun": 2,
+      "qingqi": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-5",
+   "chapter": 1,
+   "map": "M1",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 1,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 坚韧、迅捷）"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 2
+     },
+     "boss": [
+      "duwei",
+      0.6
+     ],
+     "elite_count": 3,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 3 个为精英（词缀轮流取 坚韧、迅捷）"
+    }
+   ],
+   "elite_affixes": [
+    "坚韧",
+    "迅捷"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "1-6",
+   "chapter": 1,
+   "map": "M1",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 2,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 2,
+      "qingqi": 1,
+      "gongshou": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 3,
+      "qingqi": 2,
+      "gongshou": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 5,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-7",
+   "chapter": 1,
+   "map": "M1b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 2,
+      "ying": 1,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "ying": 1,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "ying": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "ying": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 3,
+      "daodun": 2,
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 2,
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 4,
+      "daodun": 3,
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 5,
+      "daodun": 3,
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 5,
+      "daodun": 3,
+      "ying": 3,
+      "gongshou": 2,
+      "junyi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-8",
+   "chapter": 1,
+   "map": "M1b",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "shanzei": 3,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "shanzei": 3,
+      "daodun": 3,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "shanzei": 3,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "shanzei": 3,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 3,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "shanzei": 4,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 3,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、再生）"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "shanzei": 4,
+      "daodun": 4,
+      "qingqi": 3,
+      "gongshou": 3,
+      "junyi": 1
+     },
+     "boss": [
+      "duwei",
+      0.6
+     ],
+     "elite_count": 3,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 3 个为精英（词缀轮流取 铁甲、再生）"
+    }
+   ],
+   "elite_affixes": [
+    "铁甲",
+    "再生"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "1-9",
+   "chapter": 1,
+   "map": "M1",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 3,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 3,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 3,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 4,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 4,
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 4,
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 3,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "1-10",
+   "chapter": 1,
+   "map": "M1",
+   "type": "Boss",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 1,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 1,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 1,
+      "qingqi": 1,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 2,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": [
+      "duwei",
+      0.5
+     ],
+     "elite_count": 0,
+     "note": "Boss 试探：出场生命上限 = 正式 Boss 生命 ×0.5（有护盾则护盾也 ×0.5）；撤退线 = 已折减后生命上限的 50%（即正式生命的 25%），不是正式生命的 50%，也不再叠加别的系数；不进入阶段 2，阶段技不触发；撤退算击败，给全额赏金"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 1,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 3,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 2,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 11,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 12,
+     "enemies": {
+      "luanbing": 4,
+      "shanzei": 3,
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 2,
+      "gongshou": 2,
+      "junyi": 1
+     },
+     "boss": [
+      "duwei",
+      1.0
+     ],
+     "elite_count": 0,
+     "note": "结局 Boss"
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-1",
+   "chapter": 2,
+   "map": "M2",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 1,
+      "daodun": 3,
+      "qingqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 1,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 1,
+      "daodun": 3,
+      "qingqi": 2,
+      "zhongqi": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 1,
+      "daodun": 3,
+      "qingqi": 2,
+      "zhongqi": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 4,
+      "qingqi": 3,
+      "zhongqi": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 4,
+      "qingqi": 3,
+      "zhongqi": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 2,
+      "daodun": 4,
+      "qingqi": 4,
+      "zhongqi": 6
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-2",
+   "chapter": 2,
+   "map": "M2",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "shanzei": 1,
+      "daodun": 3,
+      "gongshou": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 3,
+      "gongshou": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "shanzei": 1,
+      "daodun": 2,
+      "gongshou": 2,
+      "fubing": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "shanzei": 1,
+      "daodun": 3,
+      "gongshou": 2,
+      "fubing": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "shanzei": 1,
+      "daodun": 3,
+      "gongshou": 2,
+      "fubing": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 3,
+      "gongshou": 2,
+      "fubing": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 3,
+      "gongshou": 2,
+      "fubing": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 4,
+      "gongshou": 3,
+      "fubing": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 4,
+      "gongshou": 3,
+      "fubing": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "shanzei": 2,
+      "daodun": 4,
+      "gongshou": 3,
+      "fubing": 7
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-3",
+   "chapter": 2,
+   "map": "M2b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 1,
+      "daodun": 2,
+      "qingqi": 1,
+      "zhongqi": 1,
+      "fubing": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 1,
+      "fubing": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 1,
+      "fubing": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 2,
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 2,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 2,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 2,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 3,
+      "daodun": 4,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-4",
+   "chapter": 2,
+   "map": "M2b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 1,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 2,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 2,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 6,
+      "gongshou": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "mingluo": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-5",
+   "chapter": 2,
+   "map": "M2",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 2,
+      "qingqi": 1,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 1,
+     "note": "其中 1 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 1,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 1,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 迅捷、护卫）；两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 迅捷、护卫）；两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 迅捷、护卫）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 迅捷、护卫）；两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 4,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2
+     },
+     "boss": [
+      "xiaowei",
+      0.6
+     ],
+     "elite_count": 4,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 4 个为精英（词缀轮流取 迅捷、护卫）"
+    }
+   ],
+   "elite_affixes": [
+    "迅捷",
+    "护卫"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "2-6",
+   "chapter": 2,
+   "map": "M2",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 6,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 6,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 6,
+      "gongshou": 4,
+      "zhongqi": 4,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 6,
+      "gongshou": 4,
+      "zhongqi": 4,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-7",
+   "chapter": 2,
+   "map": "M2b",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 4,
+      "junyi": 2,
+      "zhongqi": 4,
+      "fubing": 3,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 4,
+      "junyi": 2,
+      "zhongqi": 4,
+      "fubing": 3,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 4,
+      "junyi": 2,
+      "zhongqi": 4,
+      "fubing": 4,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 4,
+      "junyi": 2,
+      "zhongqi": 4,
+      "fubing": 4,
+      "chongche": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-8",
+   "chapter": 2,
+   "map": "M2b",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、鼓舞）；两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、鼓舞）；两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 铁甲、鼓舞）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 4,
+     "note": "其中 4 个为精英（词缀轮流取 铁甲、鼓舞）；两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 5,
+      "gongshou": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": [
+      "xiaowei",
+      0.6
+     ],
+     "elite_count": 4,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 4 个为精英（词缀轮流取 铁甲、鼓舞）"
+    }
+   ],
+   "elite_affixes": [
+    "铁甲",
+    "鼓舞"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "2-9",
+   "chapter": 2,
+   "map": "M2",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "qingqi": 2,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "qingqi": 2,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 2,
+      "qingqi": 2,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 3,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 3,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 3,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 4,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 3,
+      "qingqi": 4,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "2-10",
+   "chapter": 2,
+   "map": "M2",
+   "type": "Boss",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 1,
+      "junyi": 1,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 1,
+      "junyi": 1,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": [
+      "xiaowei",
+      0.5
+     ],
+     "elite_count": 0,
+     "note": "Boss 试探：出场生命上限 = 正式 Boss 生命 ×0.5（有护盾则护盾也 ×0.5）；撤退线 = 已折减后生命上限的 50%（即正式生命的 25%），不是正式生命的 50%，也不再叠加别的系数；不进入阶段 2，阶段技不触发；撤退算击败，给全额赏金；两个入口同时出怪"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": "两个入口同时出怪"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 11,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 12,
+     "enemies": {
+      "daodun": 4,
+      "gongshou": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1
+     },
+     "boss": [
+      "xiaowei",
+      1.0
+     ],
+     "elite_count": 0,
+     "note": "结局 Boss；两个入口同时出怪"
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "3-1",
+   "chapter": 3,
+   "map": "M3",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 3,
+      "gongshou": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "luanbing": 1,
+      "ying": 2,
+      "gongshou": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "luanbing": 1,
+      "ying": 2,
+      "gongshou": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "luanbing": 1,
+      "ying": 2,
+      "gongshou": 2,
+      "tengpai": 6
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 2,
+      "gongshou": 2,
+      "tengpai": 6
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 2,
+      "gongshou": 2,
+      "tengpai": 7
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 3,
+      "gongshou": 2,
+      "tengpai": 7
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 3,
+      "gongshou": 3,
+      "tengpai": 7
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 3,
+      "gongshou": 3,
+      "tengpai": 8
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "luanbing": 2,
+      "ying": 3,
+      "gongshou": 3,
+      "tengpai": 9
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "3-2",
+   "chapter": 3,
+   "map": "M3",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 4,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "3-3",
+   "chapter": 3,
+   "map": "M4",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 3,
+      "zhongqi": 2,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 3,
+      "zhongqi": 2,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 3,
+      "zhongqi": 3,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 4,
+      "zhongqi": 3,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 4,
+      "zhongqi": 3,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 4,
+      "zhongqi": 3,
+      "chongche": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 5,
+      "zhongqi": 3,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 5,
+      "zhongqi": 4,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 5,
+      "zhongqi": 4,
+      "chongche": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 6,
+      "zhongqi": 4,
+      "chongche": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": false
+  },
+  {
+   "id": "3-4",
+   "chapter": 3,
+   "map": "M4",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "qingqi": 2,
+      "gongshou": 2,
+      "fubing": 1,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "qingqi": 2,
+      "gongshou": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "qingqi": 3,
+      "gongshou": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "qingqi": 3,
+      "gongshou": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "qingqi": 3,
+      "gongshou": 3,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "qingqi": 3,
+      "gongshou": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "qingqi": 4,
+      "gongshou": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "qingqi": 4,
+      "gongshou": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "qingqi": 4,
+      "gongshou": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "qingqi": 5,
+      "gongshou": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": true
+  },
+  {
+   "id": "3-5",
+   "chapter": 3,
+   "map": "M3",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 2,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 4,
+     "note": "其中 4 个为精英（词缀轮流取 再生、坚韧）"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 4,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "tengpai": 5
+     },
+     "boss": [
+      "touling",
+      0.6
+     ],
+     "elite_count": 4,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 4 个为精英（词缀轮流取 再生、坚韧）"
+    }
+   ],
+   "elite_affixes": [
+    "再生",
+    "坚韧"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "3-6",
+   "chapter": 3,
+   "map": "M4",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 3,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 4,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 2,
+      "tengpai": 6
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": true
+  },
+  {
+   "id": "3-7",
+   "chapter": 3,
+   "map": "M4",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "daodun": 2,
+      "qingqi": 2,
+      "junyi": 1,
+      "fubing": 1,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "daodun": 2,
+      "qingqi": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 3,
+      "junyi": 1,
+      "fubing": 2,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 3,
+      "junyi": 1,
+      "fubing": 2,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "daodun": 3,
+      "qingqi": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 4,
+      "junyi": 1,
+      "fubing": 3,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 4,
+      "junyi": 1,
+      "fubing": 3,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "daodun": 4,
+      "qingqi": 4,
+      "junyi": 2,
+      "fubing": 3,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": true
+  },
+  {
+   "id": "3-8",
+   "chapter": 3,
+   "map": "M4",
+   "type": "精英",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "gongshou": 2,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "gongshou": 3,
+      "zhongqi": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 2,
+     "note": "其中 2 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "gongshou": 3,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "gongshou": 4,
+      "zhongqi": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 3,
+     "note": "其中 3 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "gongshou": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 4,
+     "note": "其中 4 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "gongshou": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 4,
+     "note": "其中 4 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "gongshou": 4,
+      "zhongqi": 4,
+      "mingluo": 2,
+      "chongche": 2,
+      "tengpai": 6
+     },
+     "boss": [
+      "touling",
+      0.6
+     ],
+     "elite_count": 4,
+     "note": "Boss 预告：出场生命上限 = 正式 Boss 生命 ×0.6（有护盾则护盾也 ×0.6）；可击破，不撤退，不进入阶段 2；其中 4 个为精英（词缀轮流取 护卫、铁甲、鼓舞）"
+    }
+   ],
+   "elite_affixes": [
+    "护卫",
+    "铁甲",
+    "鼓舞"
+   ],
+   "dongfeng": false
+  },
+  {
+   "id": "3-9",
+   "chapter": 3,
+   "map": "M3",
+   "type": "普通",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 2,
+      "junyi": 1,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "mingluo": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "mingluo": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 1,
+      "fubing": 3,
+      "mingluo": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "mingluo": 2,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 3,
+      "gongshou": 3,
+      "junyi": 2,
+      "fubing": 3,
+      "mingluo": 2,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": true
+  },
+  {
+   "id": "3-10",
+   "chapter": 3,
+   "map": "M4",
+   "type": "Boss",
+   "waves": [
+    {
+     "wave": 1,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 1,
+      "fubing": 1,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 2,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 3,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 2
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 4,
+     "enemies": {
+      "ying": 2,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 5,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 2,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 6,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 2,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": [
+      "touling",
+      0.5
+     ],
+     "elite_count": 0,
+     "note": "Boss 试探：出场生命上限 = 正式 Boss 生命 ×0.5（有护盾则护盾也 ×0.5）；撤退线 = 已折减后生命上限的 50%（即正式生命的 25%），不是正式生命的 50%，也不再叠加别的系数；不进入阶段 2，阶段技不触发；撤退算击败，给全额赏金"
+    },
+    {
+     "wave": 7,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 3
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 8,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 1,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 9,
+     "enemies": {
+      "ying": 3,
+      "junyi": 1,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 10,
+     "enemies": {
+      "ying": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 4
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 11,
+     "enemies": {
+      "ying": 3,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": null,
+     "elite_count": 0,
+     "note": ""
+    },
+    {
+     "wave": 12,
+     "enemies": {
+      "ying": 4,
+      "junyi": 2,
+      "zhongqi": 3,
+      "fubing": 3,
+      "mingluo": 2,
+      "chongche": 1,
+      "tengpai": 5
+     },
+     "boss": [
+      "touling",
+      1.0
+     ],
+     "elite_count": 0,
+     "note": "结局 Boss；另带铁骑校尉×1（血量 ×0.5）作护卫"
+    }
+   ],
+   "elite_affixes": [],
+   "dongfeng": true
+  }
+ ]
+}
