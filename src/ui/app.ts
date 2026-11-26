@@ -161,7 +161,7 @@ export function boot() {
                 const unlocked = levelUnlocked(meta, l.id);
                 const kind = l.kind === '精英' ? 'elite' : l.kind === 'Boss' ? 'boss' : '';
                 const stars = '★'.repeat(meta.levels[l.id]?.stars ?? 0);
-                return `<button class="node btn ${kind} ${unlocked ? '' : 'lock'} ${l.id === selected ? 'sel' : ''}" data-level="${l.id}" style="left:${spot[0]}%;top:${spot[1]}%"><span>${l.id.split('-')[1]}${unlocked ? '' : ' 锁'}</span></button><div class="stars" style="position:absolute;left:${spot[0]}%;top:calc(${spot[1]}% + 66px)">${stars}</div>`;
+                return `<button class="node btn ${kind} ${unlocked ? '' : 'lock'} ${l.id === selected ? 'sel' : ''}" data-level="${l.id}" style="left:${spot[0]}%;top:${spot[1]}%"><span>${l.id.split('-')[1]}${unlocked ? '' : ' 锁'}</span></button><div class="stars" style="position:absolute;left:${spot[0]}%;top:calc(${spot[1]}% + 96px)">${stars}</div>`;
               }).join('')}
             </div>
             <div class="panel" style="margin-top:10px">
@@ -507,7 +507,7 @@ export function boot() {
         <div class="pill">城门 <span id="hp-text"></span><span style="display:inline-block;width:70px;height:8px;background:#333;border-radius:4px;margin-left:6px"><i id="hp-fill" style="display:block;height:100%;width:0;background:#7dce6a"></i></span></div>
         <div class="pill">军资 <span id="gold-text"></span></div>
         <div class="grow center"><strong id="wave-label"></strong></div>
-        <button class="btn ink" id="btn-pause" style="min-width:64px">暂停</button>`;
+        <button class="btn ink" id="btn-pause">暂停</button>`;
       top.querySelector('#btn-pause')?.addEventListener('click', () => { s.paused = true; saveRun(sim, lastPrewave); sig = ''; });
       wave.innerHTML = `
         <div style="flex:1" class="small"><div>下一波</div><div id="preview"></div></div>
@@ -526,7 +526,6 @@ export function boot() {
         for (const pact of PACTS) {
           const b = document.createElement('button');
           b.className = 'btn ink';
-          b.style.minHeight = '44px';
           b.textContent = s.pendingPact === pact.id ? `${pact.name} ✓` : pact.name;
           b.addEventListener('click', () => { act({ type: 'pact', id: s.pendingPact === pact.id ? null : pact.id }); chromeKey = ''; });
           pactHost.appendChild(b);
@@ -628,8 +627,9 @@ export function boot() {
         const pad = sim.map.pads.find((p) => p.id === padId);
         if (pad) {
           const choice = overlay.dataset.choice ?? '';
-          const origin = { x: 90 + pad.x * 60, y: 80 + pad.y * 60 };
-          const slots = layoutRing(origin.x, origin.y, u.towers.length + 1);
+          const origin = { x: 90 + pad.x * 60, y: 96 + pad.y * 60 };
+          const laid = layoutRing(origin.x, origin.y, u.towers.length + 1, Boolean(choice));
+          const slots = laid.icons;
           u.towers.forEach((id, i) => {
             const def = towerById(id);
             const poor = s.munition < def.cost;
@@ -637,8 +637,8 @@ export function boot() {
             btn.className = `btn ring-btn${choice === id ? ' sel' : ''}${poor ? ' dis' : ''}`;
             btn.dataset.build = id;
             btn.disabled = poor;
-            btn.style.left = `${slots[i]!.x - 34}px`;
-            btn.style.top = `${slots[i]!.y - 34}px`;
+            btn.style.left = `${slots[i]!.x - 45}px`;
+            btn.style.top = `${slots[i]!.y - 45}px`;
             btn.innerHTML = `${def.name}<br>${def.cost}`;
             btn.addEventListener('click', () => {
               overlay.dataset.choice = id;
@@ -652,8 +652,8 @@ export function boot() {
           cancel.id = 'close-build';
           cancel.textContent = '取消';
           const cancelSlot = slots[u.towers.length]!;
-          cancel.style.left = `${cancelSlot.x - 34}px`;
-          cancel.style.top = `${cancelSlot.y - 34}px`;
+          cancel.style.left = `${cancelSlot.x - 45}px`;
+          cancel.style.top = `${cancelSlot.y - 45}px`;
           cancel.addEventListener('click', () => {
             delete overlay.dataset.pad;
             delete overlay.dataset.choice;
@@ -666,8 +666,8 @@ export function boot() {
             ok.className = 'btn ring-btn';
             ok.id = 'do-build';
             ok.textContent = '确认';
-            ok.style.left = `${origin.x - 34}px`;
-            ok.style.top = `${origin.y - 34}px`;
+            ok.style.left = `${laid.center.x - 45}px`;
+            ok.style.top = `${laid.center.y - 45}px`;
             ok.addEventListener('click', () => {
               const res = act({ type: 'build', padId, towerId: choice });
               if (!res.ok) return;
@@ -747,7 +747,7 @@ export function boot() {
     const dbg = document.createElement('button');
     dbg.className = 'btn ink';
     dbg.textContent = '调试';
-    dbg.style.cssText = 'position:absolute;top:84px;left:8px;z-index:4;pointer-events:auto;min-height:44px';
+    dbg.style.cssText = 'position:absolute;top:210px;left:8px;z-index:4;pointer-events:auto;min-width:90px;min-height:90px';
     frame.querySelector('.hud')?.appendChild(dbg);
     dbg.addEventListener('click', () => { overlay.dataset.debug = overlay.dataset.debug === '1' ? '0' : '1'; sig = ''; });
   }
@@ -908,7 +908,7 @@ export function boot() {
           <button class="btn ink" id="reset" style="margin-top:18px">清除本地存档</button>
           <div class="panel" style="margin-top:18px">
             <h2 class="msz">关于</h2>
-            <p>三国<span class="dot">·</span>烽火城关 V0.1 网页竖屏试玩。没有账号、没有服务器、没有广告、没有付费。</p>
+            <p>三国<span class="dot">·</span>烽火城关 V0.1.1 网页竖屏试玩。没有账号、没有服务器、没有广告、没有付费。</p>
             <p class="small">战斗循环参考并改写了阿軒（mars-tw）的 tower-defense-skill，MIT License。版权声明见仓库 THIRD_PARTY_NOTICES.md。</p>
             <p class="small">正文字体 Noto Serif SC，标题字体 Ma Shan Zheng，均为 SIL Open Font License 1.1 的子集。</p>
           </div>
@@ -961,25 +961,30 @@ export function boot() {
   draw();
 }
 
-/** Place ring icons around a pad, then shift the whole ring so every icon stays inside 720×1280. */
-function layoutRing(cx: number, cy: number, count: number): { x: number; y: number }[] {
-  const radius = 96;
-  const half = 34;
-  const pts = Array.from({ length: count }, (_, i) => {
+/** Ring stays inside the frame and above the wave bar (y = 1056). */
+function layoutRing(padX: number, padY: number, count: number, includeCenter: boolean): { icons: { x: number; y: number }[]; center: { x: number; y: number } } {
+  const radius = 104;
+  const half = 45;
+  const safe = { left: 4, top: 100, right: 716, bottom: 1052 };
+  const rel = Array.from({ length: count }, (_, i) => {
     const ang = -Math.PI / 2 + (i * 2 * Math.PI) / count;
-    return { x: cx + Math.cos(ang) * radius, y: cy + Math.sin(ang) * radius };
+    return { x: Math.cos(ang) * radius, y: Math.sin(ang) * radius };
   });
-  const minX = Math.min(...pts.map((p) => p.x - half));
-  const maxX = Math.max(...pts.map((p) => p.x + half));
-  const minY = Math.min(...pts.map((p) => p.y - half));
-  const maxY = Math.max(...pts.map((p) => p.y + half));
-  let dx = 0;
-  let dy = 0;
-  if (minX < 8) dx = 8 - minX;
-  if (maxX + dx > 712) dx = 712 - maxX;
-  if (minY < 8) dy = 8 - minY;
-  if (maxY + dy > 1272) dy = 1272 - maxY;
-  return pts.map((p) => ({ x: p.x + dx, y: p.y + dy }));
+  const box = includeCenter ? [...rel, { x: 0, y: 0 }] : rel;
+  const minX = Math.min(...box.map((p) => p.x - half));
+  const maxX = Math.max(...box.map((p) => p.x + half));
+  const minY = Math.min(...box.map((p) => p.y - half));
+  const maxY = Math.max(...box.map((p) => p.y + half));
+  let cx = padX;
+  let cy = padY;
+  if (cx + minX < safe.left) cx += safe.left - (cx + minX);
+  if (cx + maxX > safe.right) cx -= cx + maxX - safe.right;
+  if (cy + minY < safe.top) cy += safe.top - (cy + minY);
+  if (cy + maxY > safe.bottom) cy -= cy + maxY - safe.bottom;
+  return {
+    icons: rel.map((p) => ({ x: cx + p.x, y: cy + p.y })),
+    center: { x: cx, y: cy },
+  };
 }
 
 function navBtn(name: string, mark: string, label: string, active: string) {

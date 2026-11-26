@@ -15,6 +15,7 @@
   --gold: #e7c27a;
   --paper: #fbf1d8;
   --dim: #b7a48a;
+  --tap: 90px;
   --bz: linear-gradient(160deg, #fff0bf, #e2b866 18%, #8f5f1e 42%, #d9ad5c 58%, #6b4211 80%, #e8c27a);
 }
 * { box-sizing: border-box; }
@@ -37,19 +38,19 @@ button, input { font-family: inherit; }
 .dot { font-family: "Noto Serif SC", serif; }
 .topbar, .nav {
   display: flex; align-items: center; gap: 12px;
-  padding: 14px 18px; min-height: 84px;
+  padding: 8px 12px; min-height: 108px;
   background: linear-gradient(rgba(255,240,210,.08), rgba(0,0,0,.35)), url("/assets/ui/mat_wood.jpg") center/cover;
   box-shadow: inset 0 -8px 0 #3a2208;
 }
-.nav { margin-top: auto; justify-content: space-around; min-height: 108px; }
+.nav { margin-top: auto; justify-content: space-around; min-height: 112px; }
 .grow { flex: 1; overflow: auto; padding: 12px 18px 18px; }
 h1, h2, .gold {
   margin: 0; background: linear-gradient(#fffbe6, #ffe08a 45%, #d79b3c 70%, #fff0b8);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 2px 0 #3a0c06);
 }
-.btn, .nav button, .chip {
-  min-height: 48px; min-width: 48px; border-radius: 14px; border: 3px solid #e8c27a;
+.btn, .nav button, .chip, button.card, .node, .skill {
+  min-height: var(--tap); min-width: var(--tap); border-radius: 14px; border: 3px solid #e8c27a;
   color: #fff1c4; background:
     radial-gradient(120% 70% at 30% 0%, rgba(255,226,180,.4), transparent 60%),
     linear-gradient(#d63a26, #8d160c);
@@ -106,12 +107,12 @@ h1, h2, .gold {
 .tabs button { flex: 1; }
 .nodes { position: relative; height: 640px; margin-top: 8px; }
 .node {
-  position: absolute; width: 64px; height: 64px; border-radius: 50%;
+  position: absolute; width: var(--tap); height: var(--tap); border-radius: 50%;
   display: grid; place-items: center; font-weight: 900;
 }
 .node.elite { border-radius: 8px; transform: rotate(45deg); }
 .node.elite span { transform: rotate(-45deg); }
-.node.boss { width: 78px; height: 86px; border-radius: 10px 10px 16px 16px; }
+.node.boss { width: 96px; height: 96px; border-radius: 10px 10px 16px 16px; }
 .node.lock { filter: grayscale(1) brightness(.6); }
 .node.sel { box-shadow: 0 0 0 4px #fff2c0; }
 .stars { color: #ffd56a; letter-spacing: 1px; font-size: 14px; }
@@ -121,36 +122,37 @@ h1, h2, .gold {
   background-size: cover; background-position: center;
 }
 .battle { position: absolute; inset: 0; }
-.map-slot { position: absolute; left: 0; top: 80px; width: 720px; height: 960px; z-index: 1; }
+.map-slot { position: absolute; left: 0; top: 96px; width: 720px; height: 960px; z-index: 1; }
 .map-slot canvas { display: block; }
 .map-hit { position: absolute; inset: 0; }
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .hud button, .hud .panel, .hud .hit { pointer-events: auto; }
 .battle-top, .wavebar, .actionbar { position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; }
-.battle-top { top: 0; height: 80px; background: linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.45)), url("/assets/ui/mat_wood.jpg"); }
-.wavebar { top: 1040px; height: 72px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding-left: 16px; }
+.battle-top { top: 0; height: 96px; background: linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.45)), url("/assets/ui/mat_wood.jpg"); }
+.wavebar { top: 1056px; height: 112px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding: 6px 8px; }
 .wavebar .small { min-width: 0; flex: 1; }
 .wavebar #preview { line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.actionbar { top: 1112px; height: 168px; align-items: center; background: url("/assets/ui/mat_earth.jpg") center/cover; }
-.actionbar .skill { min-height: 0; height: 142px; padding: 4px; }
-.actionbar .hero-face { width: 52px; height: 52px; font-size: 20px; }
+.wavebar #pacts { flex-wrap: nowrap; }
+.actionbar { top: 1168px; height: 112px; align-items: center; background: url("/assets/ui/mat_earth.jpg") center/cover; padding: 6px 8px; }
+.actionbar .skill { height: 100px; padding: 4px; }
+.actionbar .hero-face { width: 44px; height: 44px; font-size: 18px; }
 .skill {
-  width: 86px; min-height: 120px; border-radius: 12px; border: 3px solid #e2b866;
-  background: #1a120e; color: var(--paper); position: relative; padding: 6px;
+  width: 92px; min-height: 96px; border-radius: 12px; border: 3px solid #e2b866;
+  background: #1a120e; color: var(--paper); position: relative; padding: 4px;
 }
 .skill .cd { position: absolute; inset: 0; background: rgba(0,0,0,.55); display: grid; place-items: center; font-size: 22px; border-radius: 9px; }
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
 .float-panel { position: absolute; left: 16px; right: 16px; bottom: 250px; pointer-events: auto; }
-.guide-tip { position: absolute; left: 12px; right: 12px; top: 86px; pointer-events: auto; z-index: 4; }
+.guide-tip { position: absolute; left: 12px; right: 108px; top: 104px; pointer-events: auto; z-index: 4; }
 .ring-btn {
-  position: absolute; width: 68px; height: 68px; min-width: 68px; min-height: 68px;
+  position: absolute; width: var(--tap); height: var(--tap); min-width: var(--tap); min-height: var(--tap);
   border-radius: 50%; margin: 0; padding: 4px; font-size: 14px; line-height: 1.15;
   z-index: 6; pointer-events: auto;
 }
 .ring-btn.sel { box-shadow: 0 0 0 3px #fff2c0, 0 0 0 6px #c8281e; }
 .ring-btn:active { transform: none; }
-#btn-start { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 148px; line-height: 1.2; }
+#btn-start { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 156px; min-height: var(--tap); line-height: 1.15; padding: 4px 8px; }
 #overlay { position: absolute; inset: 0; pointer-events: none; }
 .choice { min-width: 150px; min-height: 120px; text-align: left; }
 .banner {
