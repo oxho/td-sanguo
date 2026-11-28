@@ -10,8 +10,8 @@ import { createRun, dispatch, previewWave, towerReadout, type Command, type Sim 
 import { gateUpgradeCost } from '../core/formula';
 import type { RunState } from '../core/types';
 import { mountBattle, type BattleSession, type BattleView } from '../render/battle';
-import { clearAll, clearRun, discardedRunNotice, exportMeta, importMeta, loadMeta, loadRun, saveMeta, saveRun } from '../platform/web/storage';
-import { designToGround, worldToDesign } from '../view/projection';
+import { clearAll, clearRun, discardedRunNotice, exportMeta, importMeta, loadBattleSpeed, loadMeta, loadRun, saveBattleSpeed, saveMeta, saveRun } from '../platform/web/storage';
+import { VIEW, designToGround, worldToDesign } from '../view/projection';
 import { clientToDesign, currentViewport, mountViewport } from '../view/viewport';
 import { pickPad } from '../view/hit';
 
@@ -30,7 +30,7 @@ export function boot() {
   const app = document.querySelector('#app');
   if (!(app instanceof HTMLElement)) return;
   const frame = mountViewport(app);
-  let battleSpeed = 1;
+  let battleSpeed = loadBattleSpeed();
 
   let meta = loadMeta();
   let route: Route = { name: 'menu' };
@@ -216,7 +216,7 @@ export function boot() {
               }).join('')}
             </div>
             <p class="note">【临时默认，非已定】新档赠送黄忠、马超，首次单抽免费。点头像放主动技，点英雄本人再点格子派遣。</p>
-            <button class="btn" id="start-battle" style="width:100%;min-height:80px;margin-top:12px">出征</button>
+            <button class="btn" id="start-battle" style="width:100%;margin-top:12px">出征</button>
           </div>
         </div>`;
       frame.querySelector('[data-go]')?.addEventListener('click', () => go({ name: 'levels' }));
@@ -529,6 +529,7 @@ export function boot() {
       top.querySelector('#btn-speed')?.addEventListener('click', () => {
         if (s.levelId === '1-1' && s.waveIndex < 1) return;
         battleSpeed = battleSpeed === 2 ? 1 : 2;
+        saveBattleSpeed(battleSpeed);
         sig = '';
       });
       wave.innerHTML = `
@@ -638,7 +639,6 @@ export function boot() {
           stepName = 'done';
           meta.tutorial.skipped = true;
           meta.tutorial.done11 = true;
-          dispatch(sim, { type: 'hold', on: false });
           persist();
           sig = '';
         });
@@ -696,7 +696,6 @@ export function boot() {
               if (stepName === 'build' && choice === 'jianlou') {
                 builtId = s.towers[s.towers.length - 1]?.id ?? 0;
                 stepName = 'start';
-                dispatch(sim, { type: 'hold', on: true });
               }
               delete overlay.dataset.pad;
               delete overlay.dataset.choice;
@@ -920,6 +919,7 @@ export function boot() {
           <div class="panel" style="margin-top:18px">
             <h2 class="msz">关于</h2>
             <p>三国<span class="dot">·</span>烽火城关 V0.2 网页竖屏试玩。没有账号、没有服务器、没有广告、没有付费。</p>
+            <p class="small" id="build-stamp">版本：读取中</p>
             <p class="small">战斗循环参考并改写了阿軒（mars-tw）的 tower-defense-skill，MIT License。版权声明见仓库 THIRD_PARTY_NOTICES.md。</p>
             <p class="small">正文字体 Noto Serif SC，标题字体 Ma Shan Zheng，均为 SIL Open Font License 1.1 的子集。</p>
           </div>
@@ -927,6 +927,16 @@ export function boot() {
         ${nav('settings')}
       </div>`;
     bindNav();
+    void fetch(new URL('version.json', document.baseURI).href).then(async (res) => {
+      const el = frame.querySelector('#build-stamp');
+      if (!el) return;
+      if (!res.ok) { el.textContent = '版本：开发构建'; return; }
+      const info = await res.json() as { version?: string; commit?: string };
+      el.textContent = `版本 ${info.version ?? ''} · ${info.commit ?? ''}`;
+    }).catch(() => {
+      const el = frame.querySelector('#build-stamp');
+      if (el) el.textContent = '版本：开发构建';
+    });
     frame.querySelector('#mute')?.addEventListener('click', () => { meta.settings.muted = !meta.settings.muted; persist(); draw(); });
     frame.querySelector('#replay')?.addEventListener('click', () => { meta.tutorial.done11 = false; meta.tutorial.skipped = false; persist(); toast('下一局 1-1 会再引导'); });
     frame.querySelector('#export')?.addEventListener('click', () => {
@@ -976,7 +986,7 @@ export function boot() {
 function layoutRing(padX: number, padY: number, count: number, includeCenter: boolean): { icons: { x: number; y: number }[]; center: { x: number; y: number } } {
   const radius = 104;
   const half = 45;
-  const safe = { left: 4, top: 100, right: 716, bottom: 1052 };
+  const safe = { left: VIEW.safeLeft, top: VIEW.safeTop, right: VIEW.safeRight, bottom: VIEW.safeBottom };
   const rel = Array.from({ length: count }, (_, i) => {
     const ang = -Math.PI / 2 + (i * 2 * Math.PI) / count;
     return { x: Math.cos(ang) * radius, y: Math.sin(ang) * radius };

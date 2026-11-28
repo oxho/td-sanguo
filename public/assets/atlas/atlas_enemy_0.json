@@ -1,0 +1,407 @@
+{
+ "frames": {
+  "e_luanbing_walk_f_01": {
+   "frame": {
+    "x": 4,
+    "y": 4,
+    "w": 53,
+    "h": 121
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 31,
+    "y": 7,
+    "w": 53,
+    "h": 121
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_f_02": {
+   "frame": {
+    "x": 61,
+    "y": 4,
+    "w": 55,
+    "h": 121
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 29,
+    "y": 7,
+    "w": 55,
+    "h": 121
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_f_03": {
+   "frame": {
+    "x": 120,
+    "y": 4,
+    "w": 53,
+    "h": 121
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 31,
+    "y": 7,
+    "w": 53,
+    "h": 121
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_f_04": {
+   "frame": {
+    "x": 177,
+    "y": 4,
+    "w": 53,
+    "h": 120
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 33,
+    "y": 6,
+    "w": 53,
+    "h": 120
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_f_05": {
+   "frame": {
+    "x": 61,
+    "y": 129,
+    "w": 52,
+    "h": 119
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 34,
+    "y": 5,
+    "w": 52,
+    "h": 119
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_f_06": {
+   "frame": {
+    "x": 4,
+    "y": 129,
+    "w": 53,
+    "h": 120
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 33,
+    "y": 6,
+    "w": 53,
+    "h": 120
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_01": {
+   "frame": {
+    "x": 4,
+    "y": 373,
+    "w": 81,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 39,
+    "y": 20,
+    "w": 81,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_02": {
+   "frame": {
+    "x": 117,
+    "y": 129,
+    "w": 73,
+    "h": 116
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 47,
+    "y": 12,
+    "w": 73,
+    "h": 116
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_03": {
+   "frame": {
+    "x": 4,
+    "y": 253,
+    "w": 72,
+    "h": 116
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 48,
+    "y": 12,
+    "w": 72,
+    "h": 116
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_04": {
+   "frame": {
+    "x": 89,
+    "y": 373,
+    "w": 81,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 39,
+    "y": 20,
+    "w": 81,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_05": {
+   "frame": {
+    "x": 80,
+    "y": 253,
+    "w": 73,
+    "h": 116
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 47,
+    "y": 12,
+    "w": 73,
+    "h": 116
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  },
+  "e_luanbing_walk_s_06": {
+   "frame": {
+    "x": 157,
+    "y": 253,
+    "w": 72,
+    "h": 116
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 48,
+    "y": 12,
+    "w": 72,
+    "h": 116
+   },
+   "sourceSize": {
+    "w": 128,
+    "h": 128
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 1.0
+   }
+  }
+ },
+ "meta": {
+  "app": "td-v02-pilot/src/scripts/pack.py",
+  "version": "1.0",
+  "image": "atlas_enemy_0.webp",
+  "format": "RGBA8888",
+  "size": {
+   "w": 256,
+   "h": 512
+  },
+  "scale": "1",
+  "td": {
+   "spec": "td-prd-v0.2-25d.md §3.1 (V0.2.1) / td-tech-v0.2-25d.md §3.1/§3.2",
+   "pxPerCell": 145.0,
+   "visibleHeightPx": 116,
+   "visibleHeightCells": 0.8,
+   "displayScale": "s(y) * S0 / pxPerCell  (S0=72; visible height 116 px = 0.8 cell at s=1)",
+   "anchor": "origin (0.5,1.0) = ground point under the hip (sole line = last pixel row)",
+   "directions": {
+    "f": "front 3/4, walking down-screen",
+    "s": "side, faces RIGHT; use flipX for left (anchor x=0.5 so it mirrors in place)"
+   },
+   "anims": {
+    "e_luanbing_walk_f": {
+     "frames": [
+      "e_luanbing_walk_f_01",
+      "e_luanbing_walk_f_02",
+      "e_luanbing_walk_f_03",
+      "e_luanbing_walk_f_04",
+      "e_luanbing_walk_f_05",
+      "e_luanbing_walk_f_06"
+     ],
+     "frameRate": 12,
+     "repeat": -1
+    },
+    "e_luanbing_walk_s": {
+     "frames": [
+      "e_luanbing_walk_s_01",
+      "e_luanbing_walk_s_02",
+      "e_luanbing_walk_s_03",
+      "e_luanbing_walk_s_04",
+      "e_luanbing_walk_s_05",
+      "e_luanbing_walk_s_06"
+     ],
+     "frameRate": 12,
+     "repeat": -1
+    }
+   },
+   "walkCycleCells_s": 0.524,
+   "noSlideFrameRate": "6 * speedCellsPerSec / walkCycleCells_s",
+   "refSpeed": 1.25,
+   "eventMap": {
+    "shot": "attack",
+    "rout": "die"
+   },
+   "jitter": {
+    "f": {
+     "direction": "f",
+     "frames": 6,
+     "frameSize": [
+      128,
+      128
+     ],
+     "anchorPx": [
+      64.0,
+      128
+     ],
+     "bboxPtp": {
+      "left": 4,
+      "top": 2,
+      "right": 3,
+      "bottom": 5
+     },
+     "headMeasuredRange": [
+      4.24,
+      0.68
+     ],
+     "maxResidualPx": 0.259,
+     "meanResidualPx": 0.121,
+     "stanceSoleL": [
+      121
+     ],
+     "stanceSoleR": [
+      127
+     ]
+    },
+    "s": {
+     "direction": "s",
+     "frames": 6,
+     "frameSize": [
+      128,
+      128
+     ],
+     "anchorPx": [
+      64.0,
+      128
+     ],
+     "bboxPtp": {
+      "left": 9,
+      "top": 8,
+      "right": 0,
+      "bottom": 0
+     },
+     "headMeasuredRange": [
+      0.0,
+      7.634
+     ],
+     "maxResidualPx": 0.009,
+     "meanResidualPx": 0.003,
+     "soleRows": [
+      127
+     ]
+    }
+   }
+  }
+ }
+}

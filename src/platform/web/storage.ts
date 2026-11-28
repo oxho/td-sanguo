@@ -11,6 +11,24 @@ const META_W = 'td.meta.which';
 const RUN_A = 'td.run.a';
 const RUN_B = 'td.run.b';
 const RUN_W = 'td.run.which';
+const SPEED_KEY = 'td.settings.speed';
+
+/** Battle speed lives outside the account save, so export and MetaSave never carry it. */
+export function loadBattleSpeed(): 1 | 2 {
+  try {
+    return localStorage.getItem(SPEED_KEY) === '2' ? 2 : 1;
+  } catch {
+    return 1;
+  }
+}
+
+export function saveBattleSpeed(speed: number) {
+  try {
+    localStorage.setItem(SPEED_KEY, speed === 2 ? '2' : '1');
+  } catch {
+    /* private mode */
+  }
+}
 
 function readRaw(key: string): unknown {
   try {

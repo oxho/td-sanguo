@@ -170,7 +170,7 @@ export function createRun(opts: {
     pendingPact: null,
     pact: null,
     countdown: prepSeconds(level, 0),
-    countdownHold: opts.levelId === '1-1',
+    countdownHold: false,
     waveIndex: 0,
     spawns: [],
     spawnIndex: 0,
@@ -1127,7 +1127,11 @@ function fireTower(sim: Sim, tower: TowerState): boolean {
     }
   }
   if (tower.pili) tower.pili = false;
-  sim.events.push({ type: 'shot', id: tower.id, x: tower.x, y: tower.y, defId: def.id });
+  const aim = targets[0];
+  sim.events.push({
+    type: 'shot', id: tower.id, x: tower.x, y: tower.y, defId: def.id,
+    tx: aim?.x, ty: aim?.y,
+  });
   return true;
 }
 

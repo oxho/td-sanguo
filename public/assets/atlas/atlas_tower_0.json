@@ -1,0 +1,186 @@
+{
+ "frames": {
+  "t_jianlou_lv1_attack_01": {
+   "frame": {
+    "x": 4,
+    "y": 4,
+    "w": 166,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 13,
+    "y": 12,
+    "w": 166,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 192,
+    "h": 256
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.73645
+   }
+  },
+  "t_jianlou_lv1_attack_02": {
+   "frame": {
+    "x": 174,
+    "y": 4,
+    "w": 166,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 13,
+    "y": 12,
+    "w": 166,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 192,
+    "h": 256
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.73645
+   }
+  },
+  "t_jianlou_lv1_attack_03": {
+   "frame": {
+    "x": 4,
+    "y": 252,
+    "w": 166,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 13,
+    "y": 12,
+    "w": 166,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 192,
+    "h": 256
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.73645
+   }
+  },
+  "t_jianlou_lv1_attack_04": {
+   "frame": {
+    "x": 174,
+    "y": 252,
+    "w": 166,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 13,
+    "y": 12,
+    "w": 166,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 192,
+    "h": 256
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.73645
+   }
+  },
+  "t_jianlou_lv1_idle_01": {
+   "frame": {
+    "x": 4,
+    "y": 500,
+    "w": 166,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": true,
+   "spriteSourceSize": {
+    "x": 13,
+    "y": 12,
+    "w": 166,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 192,
+    "h": 256
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.73645
+   }
+  }
+ },
+ "meta": {
+  "app": "td-v02-pilot/src/scripts/pack.py",
+  "version": "1.0",
+  "image": "atlas_tower_0.webp",
+  "format": "RGBA8888",
+  "size": {
+   "w": 512,
+   "h": 1024
+  },
+  "scale": "1",
+  "td": {
+   "spec": "td-tech-v0.2-25d.md §3.1/§3.2",
+   "pxPerCell": 182.85714285714286,
+   "displayScale": "s(y) * S0 / pxPerCell  (256px frame = 1.4 cell)",
+   "anchor": "origin (0.5, 0.73645) = centre of the 0.9-cell pad ellipse (1-67.47/256=0.736445)",
+   "groundCenterFromBottomPx": 67.47,
+   "placement": "sprite.y = padCenter.y (pivot.y=0.73645 is the pad-ellipse centre; no extra offset). groundCenterFromBottomPx kept as a check: 1-67.47/256=0.736445",
+   "drum": {
+    "rxPx": 82.29,
+    "ryPx": 67.47,
+    "wallPx": 12.51,
+    "diameterCells": 0.9,
+    "zCells": 0.12
+   },
+   "heightCells": 1.334,
+   "firePoint": {
+    "px": [
+     121.1,
+     43.2
+    ],
+    "fromAnchorPx": [
+     25.1,
+     -145.33
+    ],
+    "note": "relative to the pad-ellipse centre (pivot.y=0.73645); spawn projectile here, scale by displayScale"
+   },
+   "anims": {
+    "t_jianlou_lv1_idle": {
+     "frames": [
+      "t_jianlou_lv1_idle_01"
+     ],
+     "frameRate": 1,
+     "repeat": -1
+    },
+    "t_jianlou_lv1_attack": {
+     "frames": [
+      "t_jianlou_lv1_attack_01",
+      "t_jianlou_lv1_attack_02",
+      "t_jianlou_lv1_attack_03",
+      "t_jianlou_lv1_attack_04"
+     ],
+     "frameRate": 12,
+     "repeat": 0,
+     "releaseFrame": "t_jianlou_lv1_attack_02"
+    }
+   },
+   "eventMap": {
+    "shot": "attack",
+    "rout": "die"
+   }
+  }
+ }
+}

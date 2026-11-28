@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { stampChecksum } from '../src/core/hash';
 import { newMeta } from '../src/core/progress';
+import { waveHpScale } from '../src/core/formula';
 import { createRun, dispatch, step } from '../src/core/sim';
 import { heroById } from '../src/data/catalog';
+import { animBook, anchorDropPx, frameOf, pxPerCell, refSpeed, strideRefSpeed, walkCycleCells } from '../src/render/spriteMeta';
 import mapM1 from '../src/data/maps/M1.json';
 import { migrateMeta } from '../src/platform/web/storage';
 import { pickPad, towerTop } from '../src/view/hit';
@@ -48,7 +50,8 @@ describe('pacing data', () => {
     const sim = createRun({ seed: 1, levelId: '1-1', heroes: [], cards: [], allowedTowers: ['jianlou', 'toushi'] });
     expect(sim.state.munition).toBe(200);
     expect(sim.state.countdown).toBe(5);
-    expect(sim.state.countdownHold).toBe(true);
+    expect(sim.state.countdownHold).toBe(false);
+    dispatch(sim, { type: 'hold', on: true });
     for (let i = 0; i < 30; i++) step(sim);
     expect(sim.state.countdown).toBe(5);
     dispatch(sim, { type: 'build', padId: sim.map.pads[0]!.id, towerId: 'jianlou' });
@@ -90,6 +93,20 @@ describe('pacing data', () => {
     expect(times.length).toBeGreaterThan(0);
   });
 
+  it('reads the enemy atlas scale instead of a fixed cell size', () => {
+    expect(pxPerCell('enemy')).toBe(145);
+    expect(refSpeed()).toBe(1.25);
+    expect(walkCycleCells()).toBeCloseTo(0.524, 3);
+    expect(strideRefSpeed()).toBeCloseTo(0.524 * (12 / 6), 3);
+    const frame = frameOf('enemy', 'e_luanbing_walk_f_01');
+    expect(frame?.sourceSize).toEqual({ w: 128, h: 128 });
+    expect(animBook('enemy').e_luanbing_walk_f?.frameRate).toBe(12);
+    expect(animBook('enemy').e_luanbing_walk_s?.frameRate).toBe(12);
+    const tower = frameOf('tower', 't_jianlou_lv1_idle_01');
+    expect(tower?.pivot.y).toBeCloseTo(0.73645, 5);
+    expect(Math.abs(anchorDropPx('tower', 't_jianlou_lv1_idle_01'))).toBeLessThan(0.05);
+  });
+
   it('shortens the two starter hero cooldowns and they start ready', () => {
     expect(heroById('huangzhong').skillCd).toBe(18);
     expect(heroById('machao').skillCd).toBe(15);
@@ -126,6 +143,57 @@ describe('save migration', () => {
     expect((next?.settings as { speed?: number }).speed).toBeUndefined();
     const fresh = newMeta(1);
     expect(fresh.version).toBe(2);
+  });
+});
+
+describe('V0.2.2 level pressure', () => {
+  function open(levelId: string) {
+    return createRun({ seed: 1, levelId, heroes: [], cards: [], allowedTowers: ['jianlou'] });
+  }
+
+  it('raises hp_mul and keeps the wave counts on 1-2, 1-3 and 1-4', () => {
+    const untouched = [
+      ['1-1', 1, 6],
+      ['1-5', 1.15, 10],
+    ] as const;
+    for (const [id, mul, waves] of untouched) {
+      const sim = open(id);
+      expect(sim.level.hp_mul).toBe(mul);
+      expect(sim.level.waves).toHaveLength(waves);
+    }
+    const tuned = [
+      ['1-2', 1.1, 8, 1.18],
+      ['1-3', 1.25, 8, 1.18],
+      ['1-4', 1.25, 10, 1.2],
+    ] as const;
+    for (const [id, mul, waves, growth] of tuned) {
+      const sim = open(id);
+      expect(sim.level.hp_mul).toBe(mul);
+      expect(sim.level.waves).toHaveLength(waves);
+      expect(sim.level.hp_growth).toBe(growth);
+      dispatch(sim, { type: 'start' });
+      step(sim);
+      const first = sim.state.enemies[0]!;
+      expect(first.defId).toBe('luanbing');
+      expect(first.maxHp).toBeCloseTo(40 * waveHpScale(1, growth, mul), 4);
+    }
+    const mid = open('1-2');
+    mid.state.waveIndex = 2;
+    dispatch(mid, { type: 'start' });
+    expect(mid.state.spawns).toHaveLength(8);
+    expect(mid.state.spawns.filter((s) => s.id === 'luanbing')).toHaveLength(4);
+    expect(mid.state.spawns.filter((s) => s.id === 'ying')).toHaveLength(2);
+    const late = open('1-3');
+    late.state.waveIndex = 5;
+    dispatch(late, { type: 'start' });
+    expect(late.state.spawns.filter((s) => s.id === 'daodun')).toHaveLength(5);
+    expect(late.state.spawns.filter((s) => s.id === 'luanbing')).toHaveLength(4);
+    const last = open('1-4');
+    last.state.waveIndex = 9;
+    dispatch(last, { type: 'start' });
+    expect(last.state.spawns).toHaveLength(15);
+    expect(last.state.spawns.filter((s) => s.id === 'luanbing')).toHaveLength(5);
+    expect(last.state.spawns.filter((s) => s.id === 'qingqi')).toHaveLength(5);
   });
 });
 

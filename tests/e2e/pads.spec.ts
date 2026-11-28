@@ -12,9 +12,16 @@ const ap = view.sFar - 0.5 * b;
 const scaleAt = (y: number) => view.sFar + b * (y - 0.5);
 const groundY = (y: number) => view.Y0 + view.S0 * view.k * (ap * y + (b * y * y) / 2);
 const worldToDesign = (x: number, y: number) => ({ x: view.CX + (x - 4.5) * view.S0 * scaleAt(y), y: groundY(y) });
+const towerAtlas = JSON.parse(readFileSync(new URL('../../public/assets/atlas/atlas_tower_0.json', import.meta.url), 'utf8')) as {
+  frames: Record<string, { spriteSourceSize: { y: number }; sourceSize: { h: number }; pivot: { y: number } }>;
+  meta: { td?: { pxPerCell?: number; groundCenterFromBottomPx?: number } };
+};
+const idle = towerAtlas.frames.t_jianlou_lv1_idle_01!;
+const groundFromBottom = towerAtlas.meta.td?.groundCenterFromBottomPx ?? (1 - idle.pivot.y) * idle.sourceSize.h;
+const towerCells = Math.max(0.9, (idle.sourceSize.h - groundFromBottom - idle.spriteSourceSize.y) / (towerAtlas.meta.td?.pxPerCell || 1));
 const towerTop = (pad: { x: number; y: number }) => {
   const foot = worldToDesign(pad.x, pad.y);
-  return { x: foot.x, y: foot.y - 1.4 * view.S0 * scaleAt(pad.y) + 2 };
+  return { x: foot.x, y: foot.y - towerCells * view.S0 * scaleAt(pad.y) + 2 };
 };
 
 const viewports = [
@@ -52,13 +59,21 @@ test('canvas matches the hit layer and every pad spot opens the ring', async ({ 
       };
     });
     expect(align.ok, JSON.stringify(align)).toBe(true);
-    await page.screenshot({ path: `docs/self-test/v02-${vp.name}-battle.png` });
+    const rowGap = await page.evaluate((rowBottom) => {
+      const frame = document.querySelector('#frame')!.getBoundingClientRect();
+      const wave = document.querySelector('.wavebar')!.getBoundingClientRect();
+      const scale = frame.width / 720;
+      return Math.round((wave.top - (frame.y + rowBottom * scale)) * 10) / 10;
+    }, groundY(16));
+    expect(rowGap, `${vp.name} row 15 gap`).toBeGreaterThanOrEqual(8);
+    await page.screenshot({ path: `docs/self-test/v02m2-${vp.name}-battle.png` });
+    console.log(`ROW15 ${vp.name} ${rowGap}`);
 
     for (const pad of mapM1.pads) {
       const spots = [
-        worldToDesign(pad.x, pad.y, 0),
-        worldToDesign(pad.x, pad.r, 0),
-        worldToDesign(pad.x, pad.r + 1, 0),
+        worldToDesign(pad.x, pad.y),
+        worldToDesign(pad.x, pad.r),
+        worldToDesign(pad.x, pad.r + 1),
         towerTop(pad),
       ];
       for (const spot of spots) {

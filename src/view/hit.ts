@@ -1,3 +1,4 @@
+import { heightAboveGroundPx, pxPerCell } from '../render/spriteMeta';
 import { VIEW, scaleAt, worldToDesign } from './projection';
 
 export interface PadLike { id: string; x: number; y: number; r?: number }
@@ -50,7 +51,9 @@ export function pickPad(designX: number, designY: number, cssScale: number, pads
 
 export function towerBox(y: number): { w: number; h: number } {
   const s = scaleAt(y);
-  return { w: 0.9 * VIEW.S0 * s, h: 1.4 * VIEW.S0 * s };
+  const px = heightAboveGroundPx('tower', 't_jianlou_lv1_idle_01');
+  const cells = px > 0 ? px / pxPerCell('tower') : 1;
+  return { w: 0.9 * VIEW.S0 * s, h: Math.max(cells, 0.9) * VIEW.S0 * s };
 }
 
 export function towerTop(pad: PadLike): { x: number; y: number } {
