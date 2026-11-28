@@ -376,9 +376,11 @@ export const GACHA = {
   tenCombined: { rare: 0.7328, epic: 0.2102, legendary: 0.057 },
 };
 
-export const DATA_HASH = 'sanguo-v0.2.2-2026-11-28';
+export const DATA_HASH = 'sanguo-v0.2.3-2026-11-29';
+export const DATA_HASH_V22 = 'sanguo-v0.2.2-2026-11-28';
 export const DATA_HASH_V2 = 'sanguo-v0.2-2026-11-28';
 export const DATA_HASH_V1 = 'sanguo-v0.1-2026-11-26';
+export const DATA_HASH_PREV = [DATA_HASH_V22, DATA_HASH_V2] as const;
 
 export const STARTING_HEROES = ['huangzhong', 'machao'] as const;
 

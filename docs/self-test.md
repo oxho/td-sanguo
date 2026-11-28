@@ -12,7 +12,7 @@
 - QA-004：出征按钮去掉写死的 80px，用 `--tap` 90px。
 - QA-005：倍速写在 `localStorage` 键 `td.settings.speed`。刷新保留。不进 MetaSave，不进导出串。1-1 第 1 波按钮仍禁用。
 - QA-006：只替换 `src/data/levels.json` 里的 1-2、1-3、1-4。`hp_mul` 分别是 1.1、1.25、1.25，波数仍是 8、8、10。1-1 和 1-5 没动。`docs/td-prd-v0.2-25d.md` 用 V0.2.2 原文覆盖。
-- `npm run build` 写 `dist/version.json`（当前是 `0.2.0-m4` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
+- `npm run build` 写 `dist/version.json`（当前是 `0.2.0-m5` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
 
 ## 怎么跑
 
@@ -113,6 +113,24 @@ npx serve dist
 ![箭矢](v02m4-390-arrow.png)
 
 ![箭矢放大](v02m4-390-arrow-zoom.png)
+
+## V0.2 M5
+
+- 1-4 的 `hp_growth` 从 1.24 改成 1.23。`createRun('1-4').level.hp_growth` 实测 1.23。包内 `dist/data/levels.json` SHA-256 `5d2fed6277b3ef2d29b46c7c5fcfd041a300c89e60ec6bb2fd1e06d5b88c442d`。`dataHash` 是 `sanguo-v0.2.3-2026-11-29`。更早的 V0.2 账号进度保留，没打完的一局丢掉。
+- 箭改成细箭杆、三角箭头和箭羽，深色描边，长度是当前塔显示宽度的一半，随 `s(y)` 缩放，朝飞行方向。对象池仍是 12，深度仍在地面单位之上。最远一排的箭在 390 宽下能看清。
+- 瞄准时「下一波」信息框从波次栏拿掉，原位放「点地图瞄准 / 施放 / 取消」。五个视口上信息框矩形是 0×0，施放、取消和「交战中」两两交集面积都是 0。按钮高 45 / 48.8 / 51.5 / 56.3 / 72 px。9×16 格中心仍全部落在 `#hit`。
+- 黄忠、马超改站在城门两翼外侧，色块宽 0.28 格。五个视口上，武将块和城门、武将块和 16 个塔基、城门和 16 个塔基的交集面积都是 0。
+- 第 15 行到底栏仍是 8.3 / 9 / 9.5 / 10.4 / 13.3 px。Playwright 原用例通过。
+
+![瞄准](v02m5-390-aim.png)
+
+![箭矢](v02m5-390-arrow.png)
+
+![箭矢放大](v02m5-390-arrow-zoom.png)
+
+![远处箭](v02m5-390-arrow-far-zoom.png)
+
+![城门和武将](v02m5-390-gate.png)
 
 ## 已知问题
 

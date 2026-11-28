@@ -171,13 +171,11 @@ h1, h2, .gold {
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
 .float-panel { position: absolute; left: 12px; top: 108px; width: 220px; bottom: auto; }
-.aim-hint {
-  position: absolute; left: 8px; top: 98px; width: 196px; margin: 0;
-  padding: 4px 8px; z-index: 7;
+.aim-actions {
+  display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0;
+  pointer-events: none;
 }
-.aim-hint strong, .aim-hint p { margin: 0; font-size: 13px; line-height: 1.2; }
-.hud .aim-hint.panel { pointer-events: none; }
-.aim-actions { position: absolute; left: 16px; top: 1072px; display: flex; gap: 8px; z-index: 8; pointer-events: none; }
+.aim-note { margin: 0; flex: 1 1 auto; min-width: 0; font-size: 15px; line-height: 1.2; color: #2a1608; white-space: nowrap; overflow: hidden; }
 .hud .aim-actions button { pointer-events: auto; }
 .hud .float-panel.panel { pointer-events: none; }
 .hud .float-panel button, .hud .float-panel .card { pointer-events: auto; }

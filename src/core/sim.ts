@@ -141,7 +141,8 @@ export function createRun(opts: {
   const heroes: HeroState[] = opts.heroes.slice(0, 2).map((id, i) => {
     const def = heroById(id);
     const hp = Math.round(def.hp * (1 + bond.hp));
-    const spot = i === 0 ? { x: 3.5, y: 15.5 } : { x: 5.5, y: 15.5 };
+    const flank = 1.28;
+    const spot = i === 0 ? { x: map.gate.x - flank, y: map.gate.y } : { x: map.gate.x + flank, y: map.gate.y };
     return {
       id: i + 1, defId: id, x: spot.x, y: spot.y, px: spot.x, py: spot.y,
       hp, maxHp: hp, cd: 0, skillReadyAt: 0, downUntil: 0, move: [], still: 0,

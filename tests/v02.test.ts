@@ -140,7 +140,7 @@ describe('save migration', () => {
     });
     const next = migrateMeta(v1);
     expect(next?.version).toBe(2);
-    expect(next?.dataHash).toBe('sanguo-v0.2.2-2026-11-28');
+    expect(next?.dataHash).toBe('sanguo-v0.2.3-2026-11-29');
     expect(next?.talisman).toBe(66);
     expect(next?.heroes).toEqual(['huangzhong', 'machao']);
     expect(next?.levels['1-1']?.stars).toBe(3);
@@ -150,10 +150,11 @@ describe('save migration', () => {
     expect(fresh.version).toBe(2);
   });
 
-  it('keeps progress from the previous v2 hash', () => {
+  it('keeps progress from the previous v2 hashes', () => {
+    for (const dataHash of ['sanguo-v0.2-2026-11-28', 'sanguo-v0.2.2-2026-11-28']) {
     const prev = stampChecksum({
       version: 2,
-      dataHash: 'sanguo-v0.2-2026-11-28',
+      dataHash,
       checksum: '',
       talisman: 12,
       heroes: ['huangzhong'],
@@ -168,10 +169,11 @@ describe('save migration', () => {
       endlessBest: 0,
     });
     const next = migrateMeta(prev);
-    expect(next?.dataHash).toBe('sanguo-v0.2.2-2026-11-28');
+    expect(next?.dataHash).toBe('sanguo-v0.2.3-2026-11-29');
     expect(next?.talisman).toBe(12);
     expect(next?.levels['1-4']?.stars).toBe(1);
     expect(next?.heroes).toEqual(['huangzhong']);
+    }
   });
 });
 
@@ -182,7 +184,7 @@ describe('V0.2.2 level pressure', () => {
 
   it('raises hp_mul and keeps the wave counts on 1-2, 1-3 and 1-4', () => {
     expect(levelsFile.levels).toEqual(shippedLevels);
-    expect(open('1-4').level.hp_growth).toBe(1.24);
+    expect(open('1-4').level.hp_growth).toBe(1.23);
     const untouched = [
       ['1-1', 1, 6],
       ['1-5', 1.15, 10],
@@ -195,7 +197,7 @@ describe('V0.2.2 level pressure', () => {
     const tuned = [
       ['1-2', 1.1, 8, 1.18],
       ['1-3', 1.25, 8, 1.18],
-      ['1-4', 1.25, 10, 1.24],
+      ['1-4', 1.25, 10, 1.23],
     ] as const;
     for (const [id, mul, waves, growth] of tuned) {
       const sim = open(id);

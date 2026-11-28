@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { heroById } from '../data/catalog';
 import { step, type Sim } from '../core/sim';
 import type { EnemyState, SimEvent } from '../core/types';
-import { anchorDropPx, animBook, firePointFromAnchor, pxPerCell, strideRefSpeed } from './spriteMeta';
+import { anchorDropPx, animBook, firePointFromAnchor, frameOf, pxPerCell, strideRefSpeed } from './spriteMeta';
 import bgMeta from '../../public/assets/map/bg_M1.json';
 import { LAYER, depthKey, flyingDepth, infoDepth } from '../view/depth';
 import { rangePolygon, scaleAt, unitPixels, worldToCanvas } from '../view/projection';
@@ -177,11 +177,28 @@ class Field extends Phaser.Scene {
 
   private prepareArrows() {
     for (let i = 0; i < 12; i++) {
-      const outline = this.add.rectangle(0, 0, 46, 16, 0x1a1008);
-      const shaft = this.add.rectangle(-2, 0, 34, 8, 0xffe7a0);
-      const arrow = this.add.container(0, 0, [outline, shaft]).setVisible(false).setDepth(LAYER.shot);
+      const draw = this.add.graphics();
+      const arrow = this.add.container(0, 0, [draw]).setVisible(false).setDepth(LAYER.shot);
       this.arrows.push(arrow);
     }
+  }
+
+  /** Local +x is the flight direction. Length is half the tower's on-screen width. */
+  private drawArrow(draw: Phaser.GameObjects.Graphics, length: number) {
+    draw.clear();
+    const len = Math.max(12, length);
+    const thick = len * 0.16;
+    const head = len * 0.36;
+    const shaft = len * 0.62;
+    draw.fillStyle(0x1a1008, 1);
+    draw.fillRect(-len / 2, -thick * 0.7, shaft, thick * 1.4);
+    draw.fillTriangle(len / 2, 0, len / 2 - head - 2, thick * 1.15, len / 2 - head - 2, -thick * 1.15);
+    draw.fillTriangle(-len / 2, 0, -len / 2 + thick * 1.4, thick * 1.05, -len / 2 + thick * 1.4, -thick * 1.05);
+    draw.fillStyle(0xfff1c2, 1);
+    draw.fillRect(-len / 2 + 2, -thick * 0.34, shaft - 6, thick * 0.68);
+    draw.fillTriangle(len / 2 - 2, 0, len / 2 - head, thick * 0.7, len / 2 - head, -thick * 0.7);
+    draw.fillStyle(0xc45a3a, 1);
+    draw.fillTriangle(-len / 2 + 2, 0, -len / 2 + thick, thick * 0.62, -len / 2 + thick, -thick * 0.62);
   }
 
   /** Cosmetic flight from the authored fire point. Damage is already resolved. */
@@ -193,6 +210,9 @@ class Field extends Phaser.Scene {
     const anchor = at(towerX, towerY, 0);
     const point = firePointFromAnchor();
     const from = { x: anchor.x + point.x * scale, y: anchor.y + point.y * scale };
+    const srcW = frameOf('tower', 't_jianlou_lv1_idle_01')?.sourceSize.w ?? 1;
+    const draw = arrow.list[0];
+    if (draw instanceof Phaser.GameObjects.Graphics) this.drawArrow(draw, srcW * scale * 0.5);
     const to = at(targetX, targetY, 0.4);
     this.tweens.killTweensOf(arrow);
     const token = (Number(arrow.getData('token')) || 0) + 1;
@@ -371,12 +391,12 @@ class Field extends Phaser.Scene {
       const x = hero.px + (hero.x - hero.px) * alpha;
       const y = hero.py + (hero.y - hero.py) * alpha;
       const p = at(x, y);
-      const size = unitPixels(y, 0.55, 1.1);
+      const size = unitPixels(y, 0.28, 0.85);
       const def = heroById(hero.defId);
       const color = Number.parseInt(def.color.slice(1), 16);
       const obj = this.block(key, color, size.w, size.h, p.x, p.y, depthKey(y, 'hero', x, hero.id));
       obj.setAlpha(hero.downUntil > this.sim.state.time ? 0.35 : 1);
-      this.shadow(key, p.x, p.y, y, 1);
+      this.shadow(key, p.x, p.y, y, 0.55);
       this.tag(key, def.name.slice(0, 1), p.x, p.y - size.h - 6);
     }
     this.dropMissing('he-', live);

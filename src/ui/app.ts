@@ -449,6 +449,7 @@ export function boot() {
         chromeKey = key;
         buildChrome();
       }
+      syncAimBar();
       const hpPct = Math.max(0, s.gate.hp / s.gate.maxHp);
       const hp = frame.querySelector<HTMLElement>('#hp-text');
       const fill = frame.querySelector<HTMLElement>('#hp-fill');
@@ -515,6 +516,35 @@ export function boot() {
       if (nextSig === sig) return;
       sig = nextSig;
       renderOverlay();
+    }
+
+    function castAim() {
+      const res = act({ type: 'card', index: aimIndex, x: aim.x, y: aim.y });
+      if (res.ok && stepName === 'card') { stepName = 'done'; meta.tutorial.done11 = true; persist(); }
+      aiming = false;
+      view.aim = null;
+      sig = '';
+    }
+
+    function syncAimBar() {
+      const preview = wave.querySelector<HTMLElement>('.wave-preview');
+      let slot = wave.querySelector<HTMLElement>('#aim-slot');
+      if (!aiming) {
+        if (preview) preview.style.display = '';
+        slot?.remove();
+        return;
+      }
+      if (preview) preview.style.display = 'none';
+      if (slot) return;
+      slot = document.createElement('div');
+      slot.id = 'aim-slot';
+      slot.className = 'aim-actions';
+      slot.innerHTML = `<p class="aim-note">点地图瞄准</p><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button>`;
+      const start = wave.querySelector('#btn-start');
+      if (start) wave.insertBefore(slot, start);
+      else wave.appendChild(slot);
+      slot.querySelector('#cast')?.addEventListener('click', castAim);
+      slot.querySelector('#unaim')?.addEventListener('click', () => { aiming = false; view.aim = null; sig = ''; });
     }
 
     function buildChrome() {
@@ -610,19 +640,7 @@ export function boot() {
         return;
       }
       if (aiming) {
-        const def = CARDS.find((c) => c.id === s.cards[aimIndex]?.id);
-        overlay.innerHTML = `<div class="aim-hint panel"><strong>${def?.name ?? ''}</strong>
-          <p>圈在手指上方 1 格。点空白或取消不算使用。</p></div>
-          <div class="aim-actions"><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button></div>`;
-        overlay.querySelector('#cast')?.addEventListener('click', () => {
-          const res = act({ type: 'card', index: aimIndex, x: aim.x, y: aim.y });
-          if (res.ok && stepName === 'card') { stepName = 'done'; meta.tutorial.done11 = true; persist(); }
-          if (res.ok || res.reason === '未命中敌人') { /* miss keeps the card ready */ }
-          aiming = false;
-          view.aim = null;
-          sig = '';
-        });
-        overlay.querySelector('#unaim')?.addEventListener('click', () => { aiming = false; view.aim = null; sig = ''; });
+        overlay.innerHTML = '';
         return;
       }
       if (stepName !== 'done') {

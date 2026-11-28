@@ -8,6 +8,6 @@ if (JSON.stringify(srcLevels) !== JSON.stringify(shipped)) {
 }
 
 const commit = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
-const info = { version: '0.2.0-m4', commit };
+const info = { version: '0.2.0-m5', commit };
 writeFileSync(new URL('../dist/version.json', import.meta.url), `${JSON.stringify(info, null, 2)}\n`);
 console.log('dist/version.json', info.version, info.commit);
