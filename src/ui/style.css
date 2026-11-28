@@ -131,7 +131,7 @@ h1, h2, .gold {
 }
 .battle { position: absolute; inset: 0; }
 .map-slot { position: absolute; left: 0; top: 96px; width: 720px; height: 960px; z-index: 1; }
-.map-slot canvas { display: block; width: 720px !important; height: 960px !important; margin: 0 !important; }
+.map-slot canvas { display: block; width: 100%; height: 100%; margin: 0; }
 .map-hit { position: absolute; inset: 0; }
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .hud button, .hud .panel, .hud .hit { pointer-events: auto; }
@@ -151,7 +151,7 @@ h1, h2, .gold {
   padding: 4px 8px;
 }
 #btn-pause { width: 90px; min-width: 90px; height: 90px; padding: 4px; }
-.wavebar { top: 1056px; height: 112px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding: 6px 14px; overflow: hidden; }
+.wavebar { top: 1064px; height: 108px; background: url("/assets/ui/mat_bamboo.jpg") center/cover; color: #2a1608; font-size: 16px; padding: 4px 14px; overflow: hidden; }
 .wave-preview {
   flex: 1 1 240px; min-width: 210px; align-self: center;
   background: rgba(251, 236, 204, .94); color: #2a1608;
@@ -160,8 +160,8 @@ h1, h2, .gold {
 .wave-preview .kicker { font-size: 14px; font-weight: 900; line-height: 1.2; }
 .wavebar #preview { font-size: 15px; line-height: 1.25; white-space: normal; overflow: visible; }
 .wavebar #pacts { flex-wrap: nowrap; flex: 0 0 auto; }
-.actionbar { top: 1168px; height: 112px; align-items: center; background: url("/assets/ui/mat_earth.jpg") center/cover; padding: 6px 8px; }
-.actionbar .skill { height: 100px; padding: 4px; }
+.actionbar { top: 1172px; height: 108px; align-items: center; background: url("/assets/ui/mat_earth.jpg") center/cover; padding: 4px 8px; }
+.actionbar .skill { height: 96px; padding: 4px; }
 .actionbar .hero-face { width: 44px; height: 44px; font-size: 18px; }
 .skill {
   width: 92px; min-height: 96px; border-radius: 12px; border: 3px solid #e2b866;
@@ -170,9 +170,18 @@ h1, h2, .gold {
 .skill .cd { position: absolute; inset: 0; background: rgba(0,0,0,.55); display: grid; place-items: center; font-size: 22px; border-radius: 9px; }
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
-.float-panel { position: absolute; left: 16px; right: 16px; bottom: 250px; pointer-events: auto; }
-.guide-tip { position: absolute; left: 292px; right: 12px; top: 104px; pointer-events: none; z-index: 7; }
-.guide-tip button { pointer-events: auto; position: relative; z-index: 1; }
+.float-panel { position: absolute; left: 12px; top: 108px; width: 220px; bottom: auto; }
+.aim-actions {
+  display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0;
+  pointer-events: none;
+}
+.aim-note { margin: 0; flex: 1 1 auto; min-width: 0; font-size: 15px; line-height: 1.2; color: #2a1608; white-space: nowrap; overflow: hidden; }
+.hud .aim-actions button { pointer-events: auto; }
+.hud .float-panel.panel { pointer-events: none; }
+.hud .float-panel button, .hud .float-panel .card { pointer-events: auto; }
+.guide-tip { position: absolute; left: 292px; right: 12px; top: 104px; z-index: 7; }
+.hud .guide-tip.panel { pointer-events: none; }
+.hud .guide-tip button { pointer-events: auto; position: relative; z-index: 1; }
 .ring-btn {
   position: absolute; width: var(--tap); height: var(--tap); min-width: var(--tap); min-height: var(--tap);
   border-radius: 50%; margin: 0; padding: 4px; font-size: 14px; line-height: 1.15;

@@ -26,6 +26,7 @@ interface WaveJson {
   enemies: Record<string, number>;
   boss: [string, number] | null;
   elite_count: number;
+  spawn_override?: { group?: number; intra?: number; gap?: number };
 }
 interface LevelJson {
   id: string;
@@ -34,6 +35,19 @@ interface LevelJson {
   waves: WaveJson[];
   elite_affixes: string[];
   dongfeng: boolean;
+  start_gold?: number;
+  hp_growth?: number;
+  hp_mul?: number;
+}
+interface RulesJson {
+  pacing?: {
+    prep_first: number;
+    prep: number;
+    early_bonus_per_sec: number;
+    early_bonus_cap?: number;
+    spawn: { group: number; intra: number; gap: number };
+  };
+  enemy_speed?: Record<string, number>;
 }
 interface MapJson {
   id: string;
@@ -47,7 +61,23 @@ interface MapJson {
   length: number;
 }
 
-const LEVELS_JSON = (levelsFile as { levels: LevelJson[] }).levels;
+const LEVEL_FILE = levelsFile as { rules: RulesJson; levels: LevelJson[] };
+const LEVELS_JSON = LEVEL_FILE.levels;
+
+function prepSeconds(level: LevelJson, waveIndex: number): number {
+  const pacing = LEVEL_FILE.rules.pacing;
+  if (!pacing) return 15;
+  return waveIndex === 0 ? pacing.prep_first : pacing.prep;
+}
+
+function spawnGap(level: LevelJson, wave: WaveJson | undefined): { group: number; intra: number; gap: number } {
+  const base = LEVEL_FILE.rules.pacing?.spawn ?? { group: 3, intra: 0.5, gap: 2.5 };
+  return {
+    group: wave?.spawn_override?.group ?? base.group,
+    intra: wave?.spawn_override?.intra ?? base.intra,
+    gap: wave?.spawn_override?.gap ?? base.gap,
+  };
+}
 const MAPS: Record<string, MapJson> = { M1: mapM1 as MapJson, M1b: mapM1b as MapJson };
 
 export interface Sim {
@@ -111,23 +141,24 @@ export function createRun(opts: {
   const heroes: HeroState[] = opts.heroes.slice(0, 2).map((id, i) => {
     const def = heroById(id);
     const hp = Math.round(def.hp * (1 + bond.hp));
-    const spot = i === 0 ? { x: 3.5, y: 15.5 } : { x: 5.5, y: 15.5 };
+    const flank = 1.28;
+    const spot = i === 0 ? { x: map.gate.x - flank, y: map.gate.y } : { x: map.gate.x + flank, y: map.gate.y };
     return {
       id: i + 1, defId: id, x: spot.x, y: spot.y, px: spot.x, py: spot.y,
-      hp, maxHp: hp, cd: 0, skillReadyAt: 10, downUntil: 0, move: [], still: 0,
+      hp, maxHp: hp, cd: 0, skillReadyAt: 0, downUntil: 0, move: [], still: 0,
       attacks: 0, lvbUntil: [], aspdMul: 1, aspdUntil: 0, guardUntil: 0, invulnUntil: 0,
       special: null, selected: false,
     };
   });
   const state: RunState = {
-    version: 1,
+    version: 2,
     levelId: opts.levelId,
     seed: opts.seed >>> 0 || 1,
     time: 0,
     tick: 0,
     phase: 'prep',
     paused: false,
-    munition: metaRow.munition,
+    munition: level.start_gold ?? metaRow.munition,
     gate: { level: 1, hp: 100, maxHp: 100, cd: 0 },
     towers: [],
     soldiers: [],
@@ -139,12 +170,13 @@ export function createRun(opts: {
     decreeOffer: null,
     pendingPact: null,
     pact: null,
-    countdown: 15,
+    countdown: prepSeconds(level, 0),
     countdownHold: false,
     waveIndex: 0,
     spawns: [],
     spawnIndex: 0,
     spawnCd: 0,
+    groupPos: 0,
     eliteCursor: 0,
     firstLeakHalved: false,
     fireUntil: 0,
@@ -328,6 +360,7 @@ function buildTower(sim: Sim, padId: string, towerId: string): CmdResult {
   if (s.towers.some((t) => t.padId === padId)) return fail('塔基已经有塔');
   if (s.munition < def.cost) return fail('军资不足');
   s.munition -= def.cost;
+  if (s.towers.length === 0) s.countdownHold = false;
   const stat = towerStat(towerId, 1, '');
   const tower: TowerState = {
     id: nid(s), defId: towerId, padId, x: pad.x, y: pad.y, level: 1, branch: '',
@@ -687,7 +720,7 @@ function pickDecree(sim: Sim, id: string | null): CmdResult {
 function enterPrep(sim: Sim) {
   const s = sim.state;
   s.phase = 'prep';
-  s.countdown = 15;
+  s.countdown = prepSeconds(sim.level, s.waveIndex);
   s.countdownHold = false;
   s.pact = null;
   s.pendingPact = null;
@@ -700,7 +733,9 @@ function beginWave(sim: Sim) {
   const wave = sim.level.waves[s.waveIndex];
   if (!wave) return;
   if (s.countdown > 0) {
-    const bonus = Math.max(0, Math.floor(s.countdown + 1e-6)) * 2;
+    const per = LEVEL_FILE.rules.pacing?.early_bonus_per_sec ?? 2;
+    const cap = LEVEL_FILE.rules.pacing?.early_bonus_cap ?? 14;
+    const bonus = Math.min(cap, Math.max(0, Math.floor(s.countdown + 1e-6)) * per);
     if (bonus) {
       s.munition += bonus;
       pushLog(s, `提前开波 +${bonus}`);
@@ -737,6 +772,7 @@ function beginWave(sim: Sim) {
   s.spawns = spawns;
   s.spawnIndex = 0;
   s.spawnCd = 0;
+  s.groupPos = 0;
   s.phase = 'combat';
   s.pact = s.pendingPact;
   s.pendingPact = null;
@@ -799,13 +835,24 @@ function tickSpawn(sim: Sim) {
   if (s.spawnCd > 0) return;
   spawnOne(sim, s.spawns[s.spawnIndex]!);
   s.spawnIndex += 1;
-  s.spawnCd = 0.8;
+  const wave = sim.level.waves[s.waveIndex];
+  const gap = spawnGap(sim.level, wave);
+  const next = s.spawns[s.spawnIndex];
+  s.groupPos += 1;
+  if (!next) {
+    s.spawnCd = 0;
+    return;
+  }
+  if (next.boss || s.groupPos >= gap.group) {
+    s.groupPos = 0;
+    s.spawnCd = gap.gap;
+  } else s.spawnCd = gap.intra;
 }
 
 function spawnOne(sim: Sim, spec: SpawnSpec) {
   const s = sim.state;
   const wave = s.waveIndex + 1;
-  const scale = waveHpScale(wave);
+  const scale = waveHpScale(wave, sim.level.hp_growth ?? 1.15, sim.level.hp_mul ?? 1);
   const boss = spec.boss ? BOSSES.find((b) => b.id === spec.id) : undefined;
   const def = spec.boss ? undefined : enemyById(spec.id);
   if (!boss && !def) return;
@@ -838,7 +885,7 @@ function spawnOne(sim: Sim, spec: SpawnSpec) {
     shield: baseSh * shMul,
     maxShield: baseSh * shMul,
     armor: Math.min(0.6, boss ? boss.armor : def!.armor),
-    baseSpeed: boss ? boss.speed : def!.speed,
+    baseSpeed: boss ? boss.speed : (LEVEL_FILE.rules.enemy_speed?.[def!.id] ?? def!.speed),
     bounty: (boss ? boss.bounty : def!.bounty) * (spec.elite ? 2 : 1),
     leak: (boss ? boss.leak : def!.leak) + (spec.elite ? 1 : 0),
     contactDps: def?.contactDps ?? 20,
@@ -1081,7 +1128,11 @@ function fireTower(sim: Sim, tower: TowerState): boolean {
     }
   }
   if (tower.pili) tower.pili = false;
-  sim.events.push({ type: 'shot', id: tower.id, x: tower.x, y: tower.y, defId: def.id });
+  const aim = targets[0];
+  sim.events.push({
+    type: 'shot', id: tower.id, x: tower.x, y: tower.y, defId: def.id,
+    tx: aim?.x, ty: aim?.y,
+  });
   return true;
 }
 
@@ -1363,7 +1414,7 @@ function kill(sim: Sim, e: EnemyState, heroId?: string) {
       hero.lvbUntil.push(s.time + 5);
     }
   }
-  sim.events.push({ type: 'rout', id: e.id, x: e.x, y: e.y, defId: e.defId, text: e.name });
+  sim.events.push({ type: 'rout', id: e.id, x: e.x, y: e.y, defId: e.defId, text: e.name, amount: e.bounty });
 }
 
 function tickSoldiers(sim: Sim) {

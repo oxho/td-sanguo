@@ -10,7 +10,10 @@ import { createRun, dispatch, previewWave, towerReadout, type Command, type Sim 
 import { gateUpgradeCost } from '../core/formula';
 import type { RunState } from '../core/types';
 import { mountBattle, type BattleSession, type BattleView } from '../render/battle';
-import { clearAll, clearRun, exportMeta, importMeta, loadMeta, loadRun, saveMeta, saveRun } from '../platform/web/storage';
+import { clearAll, clearRun, discardedRunNotice, exportMeta, importMeta, loadBattleSpeed, loadMeta, loadRun, saveBattleSpeed, saveMeta, saveRun } from '../platform/web/storage';
+import { VIEW, designToGround, worldToDesign } from '../view/projection';
+import { clientToDesign, currentViewport, mountViewport } from '../view/viewport';
+import { pickPad } from '../view/hit';
 
 type Route =
   | { name: 'menu' }
@@ -25,24 +28,9 @@ type Route =
 
 export function boot() {
   const app = document.querySelector('#app');
-  if (!app) return;
-  const fitHost = document.createElement('div');
-  fitHost.id = 'fit';
-  const frame = document.createElement('div');
-  frame.id = 'frame';
-  fitHost.appendChild(frame);
-  app.appendChild(fitHost);
-  const fit = () => {
-    const vw = Math.min(window.innerWidth, window.visualViewport?.width ?? window.innerWidth);
-    const vh = Math.min(window.innerHeight, window.visualViewport?.height ?? window.innerHeight);
-    const s = Math.min(vw / 720, vh / 1280);
-    fitHost.style.width = `${720 * s}px`;
-    fitHost.style.height = `${1280 * s}px`;
-    frame.style.setProperty('zoom', String(s));
-  };
-  window.addEventListener('resize', fit);
-  window.visualViewport?.addEventListener('resize', fit);
-  fit();
+  if (!(app instanceof HTMLElement)) return;
+  const frame = mountViewport(app);
+  let battleSpeed = loadBattleSpeed();
 
   let meta = loadMeta();
   let route: Route = { name: 'menu' };
@@ -106,6 +94,7 @@ export function boot() {
           <h1 class="msz" style="font-size:64px;margin-top:18px">三国<span class="dot">·</span>烽火城关</h1>
           <div class="panel" style="display:inline-block;margin-top:12px;padding:8px 22px">${zh.chapter1}</div>
           <p class="muted">边关守将招募名将，守住城门。敌人只是乱军、山贼和斥候鹰。</p>
+          ${discardedRunNotice ? '<p class="note">版本更新，上局已结束，进度和武将都在。</p>' : ''}
           <div class="grid2" style="margin-top:28px">
             <button class="btn ink" data-go="heroes" style="min-height:120px">武将<br><span class="small">已有 ${meta.heroes.length} 人</span></button>
             <button class="btn ink" data-go="gacha" style="min-height:120px">点将台<br><span class="small">${meta.firstSingleFree ? '首次单抽免费' : `虎符 ${meta.talisman}`}</span></button>
@@ -161,7 +150,7 @@ export function boot() {
                 const unlocked = levelUnlocked(meta, l.id);
                 const kind = l.kind === '精英' ? 'elite' : l.kind === 'Boss' ? 'boss' : '';
                 const stars = '★'.repeat(meta.levels[l.id]?.stars ?? 0);
-                return `<button class="node btn ${kind} ${unlocked ? '' : 'lock'} ${l.id === selected ? 'sel' : ''}" data-level="${l.id}" style="left:${spot[0]}%;top:${spot[1]}%"><span>${l.id.split('-')[1]}${unlocked ? '' : ' 锁'}</span></button><div class="stars" style="position:absolute;left:${spot[0]}%;top:calc(${spot[1]}% + 96px)">${stars}</div>`;
+                return `<button class="node btn ${kind} ${unlocked ? '' : 'lock'} ${l.id === selected ? 'sel' : ''}" data-level="${l.id}" style="left:${spot[0]}%;top:${spot[1]}%"><span>${l.id.split('-')[1]}${unlocked ? '' : ' 锁'}</span></button><div class="stars" style="position:absolute;left:${spot[0]}%;top:calc(${spot[1]}% + 100px)">${stars}</div>`;
               }).join('')}
             </div>
             <div class="panel detail">
@@ -227,7 +216,7 @@ export function boot() {
               }).join('')}
             </div>
             <p class="note">【临时默认，非已定】新档赠送黄忠、马超，首次单抽免费。点头像放主动技，点英雄本人再点格子派遣。</p>
-            <button class="btn" id="start-battle" style="width:100%;min-height:72px;margin-top:12px">出征</button>
+            <button class="btn" id="start-battle" style="width:100%;margin-top:12px">出征</button>
           </div>
         </div>`;
       frame.querySelector('[data-go]')?.addEventListener('click', () => go({ name: 'levels' }));
@@ -302,10 +291,12 @@ export function boot() {
     const phaserEl = frame.querySelector<HTMLElement>('#phaser')!;
 
     const cellOf = (ev: PointerEvent) => {
-      const rect = hit.getBoundingClientRect();
-      const x = ((ev.clientX - rect.left) / rect.width) * 720;
-      const y = ((ev.clientY - rect.top) / rect.height) * 960;
-      return { x: (x - 90) / 60, y: y / 60 };
+      const design = clientToDesign(ev.clientX, ev.clientY);
+      return designToGround(design.x, design.y) ?? { x: 0, y: 0 };
+    };
+    const padAt = (ev: PointerEvent) => {
+      const design = clientToDesign(ev.clientX, ev.clientY);
+      return pickPad(design.x, design.y, currentViewport().cssScale, sim.map.pads);
     };
     const say = (text: string) => {
       const el = frame.querySelector<HTMLElement>('#toast')!;
@@ -346,7 +337,7 @@ export function boot() {
       },
       onFrame: () => paint(),
       onEnd: () => finish(),
-    });
+    }, () => battleSpeed);
     saveRun(sim, lastPrewave);
 
     document.onvisibilitychange = () => {
@@ -364,13 +355,38 @@ export function boot() {
       view.aim = { ...aim, r: CARDS.find((c0) => c0.id === sim.state.cards[aimIndex]?.id)?.radius ?? 1.67 };
     });
     hit.addEventListener('pointerup', (ev) => {
-      const c = cellOf(ev);
-      if (aiming) {
-        aim = { x: c.x, y: c.y - 1 };
+      const design = clientToDesign(ev.clientX, ev.clientY);
+      const ground = designToGround(design.x, design.y);
+      if (aiming && ground) {
+        aim = { x: ground.x, y: ground.y - 1 };
         view.aim = { ...aim, r: view.aim?.r ?? 1.67 };
         return;
       }
-      pickMap(c.x, c.y);
+      const hitPad = pickPad(design.x, design.y, currentViewport().cssScale, sim.map.pads);
+      if (hitPad && stepName !== 'start') {
+        const tower = sim.state.towers.find((t) => t.padId === hitPad.padId);
+        if (tower) {
+          view.selectedTower = tower.id;
+          view.selectedHero = null;
+          const st = towerStat(tower.defId, tower.level, tower.branch);
+          view.range = { x: tower.x, y: tower.y, r: st.range };
+          delete overlay.dataset.pad;
+          sig = '';
+          return;
+        }
+        if (!sim.state.towers.some((t) => t.padId === hitPad.padId)) {
+          view.selectedTower = null;
+          view.selectedHero = null;
+          if (overlay.dataset.pad !== hitPad.padId) {
+            delete overlay.dataset.choice;
+            view.range = null;
+          }
+          overlay.dataset.pad = hitPad.padId;
+          sig = '';
+          return;
+        }
+      }
+      if (ground) pickMap(ground.x, ground.y);
     });
 
     let aimIndex = 0;
@@ -428,11 +444,12 @@ export function boot() {
       const s = sim.state;
       const total = sim.level.waves.length;
       const waveNo = Math.min(total, s.waveIndex + 1);
-      const key = [s.phase, stepName, s.pendingPact ?? '', s.pact ?? '', s.gate.level, s.waveIndex, s.cards.length, s.heroes.length].join('|');
+      const key = [s.phase, stepName, s.pendingPact ?? '', s.pact ?? '', s.gate.level, s.waveIndex, s.cards.length, s.heroes.length, battleSpeed].join('|');
       if (key !== chromeKey) {
         chromeKey = key;
         buildChrome();
       }
+      syncAimBar();
       const hpPct = Math.max(0, s.gate.hp / s.gate.maxHp);
       const hp = frame.querySelector<HTMLElement>('#hp-text');
       const fill = frame.querySelector<HTMLElement>('#hp-fill');
@@ -449,13 +466,13 @@ export function boot() {
         preview.textContent = icons || '—';
       }
       if (startBtn) {
-        const secondsLeft = s.phase === 'prep' ? Math.max(0, Math.floor(s.countdown + 1e-6)) : 0;
-        const bonus = secondsLeft * 2;
+        const secondsLeft = s.phase === 'prep' && !s.countdownHold ? Math.max(0, Math.floor(s.countdown + 1e-6)) : 0;
+        const bonus = Math.min(14, secondsLeft * 2);
         startBtn.disabled = s.phase !== 'prep' || stepName === 'build';
         const main = startBtn.querySelector<HTMLElement>('#start-main');
         const extra = startBtn.querySelector<HTMLElement>('#start-bonus');
         if (main) main.textContent = s.phase === 'prep' ? '开始下一波' : '交战中';
-        if (extra) extra.textContent = bonus > 0 ? `提前 +${bonus}` : '';
+        if (extra) extra.textContent = s.phase === 'prep' ? `${s.countdownHold ? '等第一座塔' : `${secondsLeft} 秒`}${bonus > 0 ? ` · 提前 +${bonus}` : ''}` : '';
       }
       s.cards.forEach((card, i) => {
         const btn = bar.querySelector<HTMLButtonElement>(`[data-card="${i}"]`);
@@ -501,14 +518,50 @@ export function boot() {
       renderOverlay();
     }
 
+    function castAim() {
+      const res = act({ type: 'card', index: aimIndex, x: aim.x, y: aim.y });
+      if (res.ok && stepName === 'card') { stepName = 'done'; meta.tutorial.done11 = true; persist(); }
+      aiming = false;
+      view.aim = null;
+      sig = '';
+    }
+
+    function syncAimBar() {
+      const preview = wave.querySelector<HTMLElement>('.wave-preview');
+      let slot = wave.querySelector<HTMLElement>('#aim-slot');
+      if (!aiming) {
+        if (preview) preview.style.display = '';
+        slot?.remove();
+        return;
+      }
+      if (preview) preview.style.display = 'none';
+      if (slot) return;
+      slot = document.createElement('div');
+      slot.id = 'aim-slot';
+      slot.className = 'aim-actions';
+      slot.innerHTML = `<p class="aim-note">点地图瞄准</p><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button>`;
+      const start = wave.querySelector('#btn-start');
+      if (start) wave.insertBefore(slot, start);
+      else wave.appendChild(slot);
+      slot.querySelector('#cast')?.addEventListener('click', castAim);
+      slot.querySelector('#unaim')?.addEventListener('click', () => { aiming = false; view.aim = null; sig = ''; });
+    }
+
     function buildChrome() {
       const s = sim.state;
       top.innerHTML = `
         <div class="pill">城门 <span id="hp-text"></span><span style="display:inline-block;width:48px;height:8px;background:#333;border-radius:4px;margin-left:4px"><i id="hp-fill" style="display:block;height:100%;width:0;background:#7dce6a"></i></span></div>
         <div class="pill">军资 <span id="gold-text"></span></div>
         <div class="battle-title"><strong id="wave-label"></strong></div>
+        <button class="btn ink" id="btn-speed" ${s.levelId === '1-1' && s.waveIndex < 1 ? 'disabled' : ''}>${battleSpeed === 2 ? '2×' : '1×'}</button>
         <button class="btn ink" id="btn-pause">暂停</button>`;
       top.querySelector('#btn-pause')?.addEventListener('click', () => { s.paused = true; saveRun(sim, lastPrewave); sig = ''; });
+      top.querySelector('#btn-speed')?.addEventListener('click', () => {
+        if (s.levelId === '1-1' && s.waveIndex < 1) return;
+        battleSpeed = battleSpeed === 2 ? 1 : 2;
+        saveBattleSpeed(battleSpeed);
+        sig = '';
+      });
       wave.innerHTML = `
         <div class="wave-preview"><div class="kicker">下一波</div><div id="preview"></div></div>
         <div class="wrap" id="pacts"></div>
@@ -587,19 +640,7 @@ export function boot() {
         return;
       }
       if (aiming) {
-        const def = CARDS.find((c) => c.id === s.cards[aimIndex]?.id);
-        overlay.innerHTML = `<div class="float-panel panel"><strong>${def?.name ?? ''}</strong>
-          <p class="small">圈在手指上方 1 格。点空白或取消不算使用，不进冷却。</p>
-          <div class="row"><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button></div></div>`;
-        overlay.querySelector('#cast')?.addEventListener('click', () => {
-          const res = act({ type: 'card', index: aimIndex, x: aim.x, y: aim.y });
-          if (res.ok && stepName === 'card') { stepName = 'done'; meta.tutorial.done11 = true; persist(); }
-          if (res.ok || res.reason === '未命中敌人') { /* miss keeps the card ready */ }
-          aiming = false;
-          view.aim = null;
-          sig = '';
-        });
-        overlay.querySelector('#unaim')?.addEventListener('click', () => { aiming = false; view.aim = null; sig = ''; });
+        overlay.innerHTML = '';
         return;
       }
       if (stepName !== 'done') {
@@ -616,7 +657,6 @@ export function boot() {
           stepName = 'done';
           meta.tutorial.skipped = true;
           meta.tutorial.done11 = true;
-          dispatch(sim, { type: 'hold', on: false });
           persist();
           sig = '';
         });
@@ -627,7 +667,7 @@ export function boot() {
         const pad = sim.map.pads.find((p) => p.id === padId);
         if (pad) {
           const choice = overlay.dataset.choice ?? '';
-          const origin = { x: 90 + pad.x * 60, y: 96 + pad.y * 60 };
+          const origin = worldToDesign(pad.x, pad.y, 0);
           const laid = layoutRing(origin.x, origin.y, u.towers.length + 1, Boolean(choice));
           const slots = laid.icons;
           u.towers.forEach((id, i) => {
@@ -674,7 +714,6 @@ export function boot() {
               if (stepName === 'build' && choice === 'jianlou') {
                 builtId = s.towers[s.towers.length - 1]?.id ?? 0;
                 stepName = 'start';
-                dispatch(sim, { type: 'hold', on: true });
               }
               delete overlay.dataset.pad;
               delete overlay.dataset.choice;
@@ -757,7 +796,7 @@ export function boot() {
       <div class="screen" style="${win ? '' : 'filter:saturate(.4)'}">
         <div class="grow center">
           <img src="assets/sprites/${win ? 'emb_win' : 'emb_lose'}.png" alt="" style="width:160px;height:160px;object-fit:contain">
-          <h1 class="msz" style="font-size:72px">${win ? zh.victory : zh.defeat}</h1>
+          <h1 class="msz" style="font-size:68px">${win ? zh.victory : zh.defeat}</h1>
           <p>${row.id} ${row.name}</p>
           <div class="stars" style="font-size:28px">${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}</div>
           <div class="panel" style="text-align:left;margin-top:12px">
@@ -851,7 +890,7 @@ export function boot() {
   function drawHero(id: string) {
     const h = heroById(id);
     const owned = meta.heroes.includes(h.id);
-    const face = h.full ? `<img class="full" src="assets/sprites/${h.full}" alt="">` : `<div class="hero-face" style="width:180px;height:180px;margin:0 auto;background:${h.color};font-size:72px">${h.name.slice(0, 1)}</div>`;
+    const face = h.full ? `<img class="full" src="assets/sprites/${h.full}" alt="">` : `<div class="hero-face" style="width:180px;height:180px;margin:0 auto;background:${h.color};font-size:68px">${h.name.slice(0, 1)}</div>`;
     frame.innerHTML = `
       <div class="screen">
         <header class="topbar"><button class="btn ink" data-go="heroes">返回</button><div class="grow center msz" style="font-size:36px">${h.name}</div></header>
@@ -897,7 +936,8 @@ export function boot() {
           <button class="btn ink" id="reset" style="margin-top:18px">清除本地存档</button>
           <div class="panel" style="margin-top:18px">
             <h2 class="msz">关于</h2>
-            <p>三国<span class="dot">·</span>烽火城关 V0.1.1 网页竖屏试玩。没有账号、没有服务器、没有广告、没有付费。</p>
+            <p>三国<span class="dot">·</span>烽火城关 V0.2 网页竖屏试玩。没有账号、没有服务器、没有广告、没有付费。</p>
+            <p class="small" id="build-stamp">版本：读取中</p>
             <p class="small">战斗循环参考并改写了阿軒（mars-tw）的 tower-defense-skill，MIT License。版权声明见仓库 THIRD_PARTY_NOTICES.md。</p>
             <p class="small">正文字体 Noto Serif SC，标题字体 Ma Shan Zheng，均为 SIL Open Font License 1.1 的子集。</p>
           </div>
@@ -905,6 +945,16 @@ export function boot() {
         ${nav('settings')}
       </div>`;
     bindNav();
+    void fetch(new URL('version.json', document.baseURI).href).then(async (res) => {
+      const el = frame.querySelector('#build-stamp');
+      if (!el) return;
+      if (!res.ok) { el.textContent = '版本：开发构建'; return; }
+      const info = await res.json() as { version?: string; commit?: string };
+      el.textContent = `版本 ${info.version ?? ''} · ${info.commit ?? ''}`;
+    }).catch(() => {
+      const el = frame.querySelector('#build-stamp');
+      if (el) el.textContent = '版本：开发构建';
+    });
     frame.querySelector('#mute')?.addEventListener('click', () => { meta.settings.muted = !meta.settings.muted; persist(); draw(); });
     frame.querySelector('#replay')?.addEventListener('click', () => { meta.tutorial.done11 = false; meta.tutorial.skipped = false; persist(); toast('下一局 1-1 会再引导'); });
     frame.querySelector('#export')?.addEventListener('click', () => {
@@ -954,7 +1004,7 @@ export function boot() {
 function layoutRing(padX: number, padY: number, count: number, includeCenter: boolean): { icons: { x: number; y: number }[]; center: { x: number; y: number } } {
   const radius = 104;
   const half = 45;
-  const safe = { left: 4, top: 100, right: 716, bottom: 1052 };
+  const safe = { left: VIEW.safeLeft, top: VIEW.safeTop, right: VIEW.safeRight, bottom: VIEW.safeBottom };
   const rel = Array.from({ length: count }, (_, i) => {
     const ang = -Math.PI / 2 + (i * 2 * Math.PI) / count;
     return { x: Math.cos(ang) * radius, y: Math.sin(ang) * radius };

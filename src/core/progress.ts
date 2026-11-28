@@ -1,4 +1,4 @@
-import { DATA_HASH, LEVELS, levelMeta, type LevelMeta } from '../data/catalog';
+import { DATA_HASH, LEVELS, TOWERS, levelMeta, type LevelMeta } from '../data/catalog';
 import type { MetaSave, RunState } from './types';
 import { Rng } from './rng';
 
@@ -7,7 +7,7 @@ export const PLAYABLE = ['1-1', '1-2', '1-3', '1-4', '1-5'] as const;
 export function newMeta(seed?: number): MetaSave {
   const rng = new Rng(seed ?? 0x53414e47);
   return {
-    version: 1,
+    version: 2,
     dataHash: DATA_HASH,
     checksum: '',
     talisman: 0,
@@ -48,19 +48,15 @@ export interface Unlocks {
 
 /** Account unlocks once the granting level can be entered. */
 export function unlocks(meta: MetaSave): Unlocks {
-  const towers = ['jianlou', 'toushi'];
+  const towers = TOWERS.filter((t) => !t.v01Hidden && levelUnlocked(meta, t.unlockLevel)).map((t) => t.id);
   const cards = ['huogong'];
   let slots = 1;
   let branch = false;
   if (levelUnlocked(meta, '1-3')) {
-    towers.push('junqi');
     cards.push('wanjian');
     slots = 2;
   }
-  if (levelUnlocked(meta, '1-4')) {
-    towers.push('juma', 'qiangbing');
-    branch = true;
-  }
+  if (levelUnlocked(meta, '1-4')) branch = true;
   return { towers, cards, slots, branch };
 }
 

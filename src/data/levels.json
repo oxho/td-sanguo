@@ -24,7 +24,29 @@
   "boss_probe": "Boss 关第 6 波 hp_mul=0.5。撤退线是已折减后生命上限的 50%（即正式生命的 25%），不是正式生命的 50%，也不把两个 50% 再乘一次。不进入阶段 2。撤退算击败，给全额赏金。",
   "boss_preview": "精英关第 10 波 hp_mul=0.6：可击破，不撤退，不进入阶段 2。出现在每章第 5、第 8 关。",
   "boss_escort": "3-10 第 12 波护卫铁骑校尉 hp_mul=0.5：只折减出场生命（和护盾，若有），战斗到被击败或到达城门，不撤退。",
-  "dual_entrance": "地图为 M2 或 M2b 时，第 3、6、9 波（Boss 关另有第 12 波）两个入口同时出怪。从 2-1 起生效。"
+  "dual_entrance": "地图为 M2 或 M2b 时，第 3、6、9 波（Boss 关另有第 12 波）两个入口同时出怪。从 2-1 起生效。",
+  "pacing": {
+   "prep_first": 5,
+   "prep": 8,
+   "early_bonus_per_sec": 2,
+   "early_bonus_cap": 14,
+   "spawn": {
+    "group": 3,
+    "intra": 0.5,
+    "gap": 2.5
+   },
+   "speed_options": [
+    1,
+    2
+   ]
+  },
+  "enemy_speed": {
+   "luanbing": 1.25,
+   "shanzei": 1.92,
+   "ying": 1.98,
+   "daodun": 1.15,
+   "qingqi": 1.5
+  }
  },
  "levels": [
   {
@@ -41,7 +63,7 @@
      },
      "boss": null,
      "elite_count": 0,
-     "note": ""
+     "note": "首次进入：放下第一座塔后才开始倒数"
     },
     {
      "wave": 2,
@@ -95,7 +117,10 @@
     }
    ],
    "elite_affixes": [],
-   "dongfeng": false
+   "dongfeng": false,
+   "start_gold": 200,
+   "hp_growth": 1.15,
+   "hp_mul": 1
   },
   {
    "id": "1-2",
@@ -126,7 +151,7 @@
     {
      "wave": 3,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 2
      },
@@ -138,17 +163,20 @@
      "wave": 4,
      "enemies": {
       "luanbing": 3,
-      "shanzei": 2,
-      "ying": 3
+      "shanzei": 4
      },
      "boss": null,
      "elite_count": 0,
-     "note": ""
+     "note": "山贼冲锋",
+     "spawn_override": {
+      "group": 4,
+      "intra": 0.3
+     }
     },
     {
      "wave": 5,
      "enemies": {
-      "luanbing": 4,
+      "luanbing": 5,
       "shanzei": 2,
       "ying": 3
      },
@@ -159,7 +187,7 @@
     {
      "wave": 6,
      "enemies": {
-      "luanbing": 4,
+      "luanbing": 5,
       "shanzei": 2,
       "ying": 4
      },
@@ -170,7 +198,7 @@
     {
      "wave": 7,
      "enemies": {
-      "luanbing": 4,
+      "luanbing": 5,
       "shanzei": 3,
       "ying": 4
      },
@@ -181,7 +209,7 @@
     {
      "wave": 8,
      "enemies": {
-      "luanbing": 5,
+      "luanbing": 6,
       "shanzei": 3,
       "ying": 4
      },
@@ -191,7 +219,10 @@
     }
    ],
    "elite_affixes": [],
-   "dongfeng": false
+   "dongfeng": false,
+   "start_gold": 120,
+   "hp_growth": 1.18,
+   "hp_mul": 1.1
   },
   {
    "id": "1-3",
@@ -213,7 +244,7 @@
     {
      "wave": 2,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 1
      },
@@ -224,7 +255,7 @@
     {
      "wave": 3,
      "enemies": {
-      "luanbing": 2,
+      "luanbing": 3,
       "shanzei": 1,
       "ying": 1,
       "daodun": 3
@@ -236,7 +267,7 @@
     {
      "wave": 4,
      "enemies": {
-      "luanbing": 2,
+      "luanbing": 3,
       "shanzei": 2,
       "ying": 1,
       "daodun": 3
@@ -248,7 +279,7 @@
     {
      "wave": 5,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 1,
       "daodun": 3
@@ -260,10 +291,10 @@
     {
      "wave": 6,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 1,
-      "daodun": 4
+      "daodun": 5
      },
      "boss": null,
      "elite_count": 0,
@@ -272,10 +303,10 @@
     {
      "wave": 7,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 2,
-      "daodun": 4
+      "daodun": 5
      },
      "boss": null,
      "elite_count": 0,
@@ -284,10 +315,10 @@
     {
      "wave": 8,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "ying": 2,
-      "daodun": 5
+      "daodun": 6
      },
      "boss": null,
      "elite_count": 0,
@@ -295,7 +326,10 @@
     }
    ],
    "elite_affixes": [],
-   "dongfeng": false
+   "dongfeng": false,
+   "start_gold": 130,
+   "hp_growth": 1.18,
+   "hp_mul": 1.25
   },
   {
    "id": "1-4",
@@ -329,7 +363,7 @@
     {
      "wave": 3,
      "enemies": {
-      "luanbing": 2,
+      "luanbing": 3,
       "shanzei": 1,
       "daodun": 1,
       "qingqi": 3
@@ -341,7 +375,7 @@
     {
      "wave": 4,
      "enemies": {
-      "luanbing": 2,
+      "luanbing": 3,
       "shanzei": 2,
       "daodun": 1,
       "qingqi": 3
@@ -353,7 +387,7 @@
     {
      "wave": 5,
      "enemies": {
-      "luanbing": 2,
+      "luanbing": 3,
       "shanzei": 2,
       "daodun": 2,
       "qingqi": 3
@@ -365,7 +399,7 @@
     {
      "wave": 6,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "daodun": 2,
       "qingqi": 3
@@ -377,7 +411,7 @@
     {
      "wave": 7,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "daodun": 2,
       "qingqi": 4
@@ -389,7 +423,7 @@
     {
      "wave": 8,
      "enemies": {
-      "luanbing": 3,
+      "luanbing": 4,
       "shanzei": 2,
       "daodun": 2,
       "qingqi": 5
@@ -401,7 +435,7 @@
     {
      "wave": 9,
      "enemies": {
-      "luanbing": 4,
+      "luanbing": 5,
       "shanzei": 2,
       "daodun": 2,
       "qingqi": 5
@@ -413,7 +447,7 @@
     {
      "wave": 10,
      "enemies": {
-      "luanbing": 4,
+      "luanbing": 5,
       "shanzei": 3,
       "daodun": 2,
       "qingqi": 5
@@ -424,7 +458,10 @@
     }
    ],
    "elite_affixes": [],
-   "dongfeng": false
+   "dongfeng": false,
+   "start_gold": 140,
+   "hp_growth": 1.23,
+   "hp_mul": 1.25
   },
   {
    "id": "1-5",
@@ -570,7 +607,10 @@
     "坚韧",
     "迅捷"
    ],
-   "dongfeng": false
+   "dongfeng": false,
+   "start_gold": 150,
+   "hp_growth": 1.2,
+   "hp_mul": 1.15
   },
   {
    "id": "1-6",
@@ -1317,7 +1357,7 @@
      },
      "boss": [
       "duwei",
-      1.0
+      1
      ],
      "elite_count": 0,
      "note": "结局 Boss"
@@ -2756,7 +2796,7 @@
      },
      "boss": [
       "xiaowei",
-      1.0
+      1
      ],
      "elite_count": 0,
      "note": "结局 Boss；两个入口同时出怪"
@@ -4223,7 +4263,7 @@
      },
      "boss": [
       "touling",
-      1.0
+      1
      ],
      "elite_count": 0,
      "note": "结局 Boss；另带铁骑校尉×1（血量 ×0.5）作护卫"

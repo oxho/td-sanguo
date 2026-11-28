@@ -1,0 +1,20 @@
+{
+  "S0": 72,
+  "k": 0.82,
+  "kz": 0.57,
+  "CX": 360,
+  "Y0": 150,
+  "sFar": 0.75,
+  "sNear": 1.15,
+  "span": 15,
+  "mapTop": 96,
+  "mapW": 720,
+  "mapH": 960,
+  "frameW": 720,
+  "frameH": 1280,
+  "hitFloorPt": 22,
+  "safeTop": 100,
+  "safeBottom": 1060,
+  "safeLeft": 4,
+  "safeRight": 716
+}
