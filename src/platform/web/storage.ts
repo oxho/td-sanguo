@@ -1,4 +1,4 @@
-import { DATA_HASH } from '../../data/catalog';
+import { DATA_HASH, DATA_HASH_V1 } from '../../data/catalog';
 import { bondBetween } from '../../core/bonds';
 import { checksumValid, stampChecksum } from '../../core/hash';
 import { newMeta, unlocks } from '../../core/progress';
@@ -29,13 +29,32 @@ function writePair(whichKey: string, aKey: string, bKey: string, value: unknown)
   localStorage.setItem(whichKey, next);
 }
 
-function asMeta(value: unknown): MetaSave | null {
+export function migrateMeta(value: unknown): MetaSave | null {
   if (!value || typeof value !== 'object') return null;
-  const meta = value as MetaSave;
-  if (meta.version !== 1 || meta.dataHash !== DATA_HASH) return null;
-  if (!checksumValid(meta)) return null;
-  if (!Array.isArray(meta.heroes) || typeof meta.talisman !== 'number') return null;
-  return meta;
+  const raw = value as Omit<MetaSave, 'version'> & { version?: number; dataHash?: string };
+  if (!checksumValid(raw)) return null;
+  if (!Array.isArray(raw.heroes) || typeof raw.talisman !== 'number') return null;
+  const v1 = raw.version === 1 && raw.dataHash === DATA_HASH_V1;
+  const v2 = raw.version === 2 && raw.dataHash === DATA_HASH;
+  if (!v1 && !v2) return null;
+  if (v2) return raw as MetaSave;
+  const next = newMeta();
+  next.talisman = raw.talisman;
+  next.heroes = raw.heroes.slice();
+  next.pity = raw.pity ?? 0;
+  next.firstSingleFree = raw.firstSingleFree ?? false;
+  next.rng = raw.rng ?? next.rng;
+  next.levels = raw.levels ?? next.levels;
+  next.tutorial = raw.tutorial ?? next.tutorial;
+  next.codex = Array.isArray(raw.codex) ? raw.codex.slice() : [];
+  next.settings = { muted: Boolean(raw.settings?.muted) };
+  next.dailyChallengeUnlocked = Boolean(raw.dailyChallengeUnlocked);
+  next.endlessBest = raw.endlessBest ?? 0;
+  return stampChecksum({ ...next, checksum: '' });
+}
+
+function asMeta(value: unknown): MetaSave | null {
+  return migrateMeta(value);
 }
 
 export function loadMeta(): MetaSave {
@@ -73,13 +92,15 @@ export function importMeta(text: string): MetaSave | null {
 
 function sane(state: RunState | null | undefined): state is RunState {
   return !!state
-    && state.version === 1
+    && state.version === 2
     && typeof state.levelId === 'string'
     && typeof state.munition === 'number'
     && Array.isArray(state.towers)
     && Array.isArray(state.enemies)
     && Array.isArray(state.heroes);
 }
+
+export let discardedRunNotice = false;
 
 function revive(env: RunEnvelope, state: RunState): Sim {
   const meta = loadMeta();
@@ -105,7 +126,14 @@ export function loadRun(): { sim: Sim; prewave: RunState | null; recovered: bool
     const raw = readRaw(key);
     if (!raw || typeof raw !== 'object') continue;
     const env = raw as RunEnvelope;
-    if (env.version !== 1 || env.dataHash !== DATA_HASH || !checksumValid(env)) continue;
+    if (!checksumValid(env)) continue;
+    const envVersion = (env as { version?: number }).version;
+    if (envVersion === 1 || env.dataHash === DATA_HASH_V1) {
+      clearRun();
+      discardedRunNotice = true;
+      return null;
+    }
+    if (env.version !== 2 || env.dataHash !== DATA_HASH) continue;
     try {
       if (sane(env.state)) return { sim: revive(env, env.state), prewave: sane(env.prewave) ? env.prewave : null, recovered: false };
       if (sane(env.prewave)) return { sim: revive(env, env.prewave), prewave: env.prewave, recovered: true };
@@ -118,7 +146,7 @@ export function loadRun(): { sim: Sim; prewave: RunState | null; recovered: bool
 
 export function saveRun(sim: Sim, prewave: RunState | null) {
   const env = stampChecksum({
-    version: 1 as const,
+    version: 2 as const,
     dataHash: DATA_HASH,
     checksum: '',
     state: sim.state,

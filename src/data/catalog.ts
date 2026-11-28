@@ -1,4 +1,5 @@
 import type { DamageType, Species } from '../core/types';
+import levelsFile from './levels.json';
 
 export type Rarity = 'rare' | 'epic' | 'legendary';
 export type Star3 = 'noLeak' | 'noLeakDmg' | 'builds10';
@@ -198,7 +199,7 @@ export const TOWERS: TowerDef[] = [
   },
   {
     id: 'juma', name: '拒马阵', role: '减速', damageType: 'blunt', cost: 70,
-    canHitFlying: false, v01Hidden: false, unlockLevel: '1-4', splash: 0, minRange: 0,
+    canHitFlying: false, v01Hidden: false, unlockLevel: '1-3', splash: 0, minRange: 0,
     branches: [
       { id: 'jili', name: '铁蒺藜', blurb: '被减速的敌人每秒受 8 钝击', skill: '撒蒺藜', skillCd: 16, skillText: '铺 2 格蒺藜，减速 40%，每秒 10 钝击，持续 5 秒' },
       { id: 'lujiao', name: '鹿角', blurb: '对骑兵减速 80%', skill: '拒骑', skillCd: 20, skillText: '射程内骑兵定身 1.5 秒（Boss 改为减速）' },
@@ -255,7 +256,7 @@ export const TOWERS: TowerDef[] = [
   },
   {
     id: 'junqi', name: '军旗台', role: '增益', damageType: 'none', cost: 110,
-    canHitFlying: false, v01Hidden: false, unlockLevel: '1-3', splash: 0, minRange: 0,
+    canHitFlying: false, v01Hidden: false, unlockLevel: '1-2', splash: 0, minRange: 0,
     branches: [
       { id: 'shuaiqi', name: '帅旗', blurb: '增伤提到 +35% / +39% / +43%', skill: '帅旗令', skillCd: 30, skillText: '范围内塔的下一次攻击伤害×2' },
       { id: 'liangcang', name: '粮仓', blurb: '增伤保持 +28%，每波结束额外军资', skill: '屯田', skillCd: 0, skillText: '每 3 波结束额外 +60 军资' },
@@ -294,11 +295,11 @@ export const TOWERS: TowerDef[] = [
 ];
 
 export const ENEMIES: EnemyDef[] = [
-  { id: 'luanbing', name: '乱兵', species: 'infantry', hp: 40, shield: 0, armor: 0, speed: 0.94, bounty: 8, leak: 1, flying: false, dodgeFirst: 0, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 8, tip: '没有特性，任何塔都能打。', first: '1-1' },
-  { id: 'shanzei', name: '山贼', species: 'infantry', hp: 28, shield: 0, armor: 0, speed: 1.67, bounty: 10, leak: 1, flying: false, dodgeFirst: 0.35, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 10, tip: '有 35% 几率闪避第一次受到的伤害。', first: '1-1' },
+  { id: 'luanbing', name: '乱兵', species: 'infantry', hp: 40, shield: 0, armor: 0, speed: 1.25, bounty: 8, leak: 1, flying: false, dodgeFirst: 0, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 8, tip: '没有特性，任何塔都能打。', first: '1-1' },
+  { id: 'shanzei', name: '山贼', species: 'infantry', hp: 28, shield: 0, armor: 0, speed: 1.92, bounty: 10, leak: 1, flying: false, dodgeFirst: 0.35, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 10, tip: '有 35% 几率闪避第一次受到的伤害。', first: '1-1' },
   { id: 'ying', name: '斥候鹰', species: 'flying', hp: 22, shield: 0, armor: 0, speed: 1.98, bounty: 7, leak: 1, flying: true, dodgeFirst: 0, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 0, tip: '直线飞向城门。投石车、拒马阵、枪兵打不到，不受地面效果。', first: '1-2' },
-  { id: 'daodun', name: '刀盾兵', species: 'infantry', hp: 85, shield: 65, armor: 0, speed: 0.88, bounty: 16, leak: 2, flying: false, dodgeFirst: 0, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 12, tip: '有护盾。燃烧无视护盾。', first: '1-3' },
-  { id: 'qingqi', name: '轻骑', species: 'cavalry', hp: 60, shield: 0, armor: 0, speed: 1.35, bounty: 12, leak: 1, flying: false, dodgeFirst: 0, sprintEvery: 6, sprintDur: 1.5, sprintMul: 1.5, contactDps: 14, tip: '每 6 秒冲刺 1.5 秒，速度 +50%。', first: '1-4' },
+  { id: 'daodun', name: '刀盾兵', species: 'infantry', hp: 85, shield: 65, armor: 0, speed: 1.15, bounty: 16, leak: 2, flying: false, dodgeFirst: 0, sprintEvery: 0, sprintDur: 0, sprintMul: 1, contactDps: 12, tip: '有护盾。燃烧无视护盾。', first: '1-3' },
+  { id: 'qingqi', name: '轻骑', species: 'cavalry', hp: 60, shield: 0, armor: 0, speed: 1.5, bounty: 12, leak: 1, flying: false, dodgeFirst: 0, sprintEvery: 6, sprintDur: 1.5, sprintMul: 1.5, contactDps: 14, tip: '每 6 秒冲刺 1.5 秒，速度 +50%。', first: '1-4' },
 ];
 
 export const BOSSES: BossDef[] = [
@@ -314,8 +315,8 @@ export const HEROES: HeroDef[] = [
   { id: 'zhouyu', name: '周瑜', rarity: 'epic', faction: '吴', damageType: 'fire', ranged: true, hp: 145, atk: 20, aps: 1.3, range: 2.08, attack: 'splash', attackN: 0.42, skill: '火烧连营', skillCd: 35, skillText: '在射程内最长路线铺 6 格火墙，5 秒，每秒 25 火攻。', passive: '美周郎', passiveText: '2.5 格内火油台攻速 +15%。', color: '#a33b32' },
   { id: 'dianwei', name: '典韦', rarity: 'epic', faction: '魏', damageType: 'blunt', ranged: false, hp: 360, atk: 26, aps: 0.9, range: 0.94, attack: 'single', attackN: 1, skill: '古之恶来', skillCd: 30, skillText: '6 秒内受伤 −60%，并让 1.67 格内地面敌人攻击典韦。', passive: '双戟', passiveText: '每第 3 次攻击伤害×2。', color: '#6b4a32' },
   { id: 'sunshangxiang', name: '孙尚香', rarity: 'epic', faction: '吴', damageType: 'pierce', ranged: true, hp: 175, atk: 24, aps: 1, range: 2.19, attack: 'splash', attackN: 0.71, skill: '枭姬连射', skillCd: 25, skillText: '4 秒内攻速×3。', passive: '弓腰姬', passiveText: '对飞行敌人伤害 +50%。', color: '#c45a4a', portrait: 'b_sunshangxiang.png', full: 'ssx_full.png' },
-  { id: 'huangzhong', name: '黄忠', rarity: 'rare', faction: '蜀', damageType: 'pierce', ranged: true, hp: 125, atk: 17, aps: 1.25, range: 2.4, attack: 'pierce', attackN: 2, skill: '百步穿杨', skillCd: 30, skillText: '对全场生命最高的敌人造成 6 倍攻击，必中。', passive: '老当益壮', passiveText: '驻守不动 5 秒后攻击 +20%。', color: '#c9a24a' },
-  { id: 'machao', name: '马超', rarity: 'rare', faction: '蜀', damageType: 'pierce', ranged: false, hp: 200, atk: 16, aps: 1.2, range: 0.92, attack: 'single', attackN: 1, skill: '银枪突击', skillCd: 20, skillText: '向入口冲 3 格，途经敌人 1.5 倍攻击并击退 1 格。', passive: '西凉锦马', passiveText: '移速×2。', color: '#e6d7a8' },
+  { id: 'huangzhong', name: '黄忠', rarity: 'rare', faction: '蜀', damageType: 'pierce', ranged: true, hp: 125, atk: 17, aps: 1.25, range: 2.4, attack: 'pierce', attackN: 2, skill: '百步穿杨', skillCd: 18, skillText: '对全场生命最高的敌人造成 6 倍攻击，必中。', passive: '老当益壮', passiveText: '驻守不动 5 秒后攻击 +20%。', color: '#c9a24a' },
+  { id: 'machao', name: '马超', rarity: 'rare', faction: '蜀', damageType: 'pierce', ranged: false, hp: 200, atk: 16, aps: 1.2, range: 0.92, attack: 'single', attackN: 1, skill: '银枪突击', skillCd: 15, skillText: '向入口冲 3 格，途经敌人 1.5 倍攻击并击退 1 格。', passive: '西凉锦马', passiveText: '移速×2。', color: '#e6d7a8' },
   { id: 'ganning', name: '甘宁', rarity: 'rare', faction: '吴', damageType: 'pierce', ranged: true, hp: 130, atk: 15, aps: 1.1, range: 2.29, attack: 'single', attackN: 1, skill: '百骑劫营', skillCd: 30, skillText: '2 格内地面敌人沿路线后退 2 格。', passive: '锦帆', passiveText: '对器械伤害 +30%。', color: '#2f6f6a' },
   { id: 'diaochan', name: '貂蝉', rarity: 'rare', faction: '群', damageType: 'blunt', ranged: true, hp: 110, atk: 8, aps: 1, range: 1.88, attack: 'single', attackN: 1, skill: '闭月', skillCd: 30, skillText: '1.67 格内敌人停住 3 秒。Boss 改为减速 50%。', passive: '倾城', passiveText: '每次攻击给城门回 2 生命。', color: '#d48aa6' },
 ];
@@ -347,11 +348,11 @@ export const PACTS: PactDef[] = [
 ];
 
 export const LEVELS: LevelMeta[] = [
-  { id: '1-1', name: '关前试锋', chapter: 1, map: 'M1', kind: '普通', munition: 220, star3: 'noLeak', star3Text: '不漏怪', blurb: '建箭楼、开波、升级、放火攻。乱兵与山贼。', playable: true },
-  { id: '1-2', name: '鹰啸山口', chapter: 1, map: 'M1', kind: '普通', munition: 220, star3: 'noLeak', star3Text: '不漏怪', blurb: '斥候鹰从第 3 波飞来。投石车打不到。', playable: true },
-  { id: '1-3', name: '盾阵叩关', chapter: 1, map: 'M1b', kind: '普通', munition: 220, star3: 'noLeakDmg', star3Text: '城门没有被漏怪扣血', blurb: '刀盾兵带护盾。解锁军旗台、万箭齐发、第 2 个卡槽。', playable: true },
-  { id: '1-4', name: '轻骑突袭', chapter: 1, map: 'M1b', kind: '普通', munition: 220, star3: 'noLeak', star3Text: '不漏怪', blurb: '轻骑会冲刺。解锁拒马阵、枪兵营，开放 Lv4 分支。', playable: true },
-  { id: '1-5', name: '精英·锐卒夜袭', chapter: 1, map: 'M1', kind: '精英', munition: 220, star3: 'builds10', star3Text: '建塔不超过 10 座', blurb: '精英词缀只有坚韧、迅捷。第 10 波乱军都尉预告（×0.6）。', playable: true },
+  { id: '1-1', name: '关前试锋', chapter: 1, map: 'M1', kind: '普通', munition: 200, star3: 'noLeak', star3Text: '不漏怪', blurb: '建箭楼、开波、升级、放火攻。乱兵与山贼。', playable: true },
+  { id: '1-2', name: '鹰啸山口', chapter: 1, map: 'M1', kind: '普通', munition: 120, star3: 'noLeak', star3Text: '不漏怪', blurb: '斥候鹰从第 3 波飞来。投石车打不到。解锁军旗台。', playable: true },
+  { id: '1-3', name: '盾阵叩关', chapter: 1, map: 'M1b', kind: '普通', munition: 130, star3: 'noLeakDmg', star3Text: '城门没有被漏怪扣血', blurb: '刀盾兵带护盾。解锁拒马阵、万箭齐发、第 2 个卡槽。', playable: true },
+  { id: '1-4', name: '轻骑突袭', chapter: 1, map: 'M1b', kind: '普通', munition: 140, star3: 'noLeak', star3Text: '不漏怪', blurb: '轻骑会冲刺。解锁枪兵营，开放 Lv4 分支。', playable: true },
+  { id: '1-5', name: '精英·锐卒夜袭', chapter: 1, map: 'M1', kind: '精英', munition: 150, star3: 'builds10', star3Text: '建塔不超过 10 座', blurb: '精英词缀只有坚韧、迅捷。第 10 波乱军都尉预告（×0.6）。', playable: true },
   { id: '1-6', name: '箭雨压城', chapter: 1, map: 'M1', kind: '普通', munition: 220, star3: 'noLeak', star3Text: '英雄没有倒下', blurb: '后续版本开放。', playable: false },
   { id: '1-7', name: '军医随营', chapter: 1, map: 'M1b', kind: '普通', munition: 220, star3: 'noLeak', star3Text: '不使用谋略卡', blurb: '后续版本开放。', playable: false },
   { id: '1-8', name: '精英·铁甲连营', chapter: 1, map: 'M1b', kind: '精英', munition: 220, star3: 'noLeak', star3Text: '不漏怪', blurb: '后续版本开放。', playable: false },
@@ -375,7 +376,8 @@ export const GACHA = {
   tenCombined: { rare: 0.7328, epic: 0.2102, legendary: 0.057 },
 };
 
-export const DATA_HASH = 'sanguo-v0.1-2026-11-26';
+export const DATA_HASH = 'sanguo-v0.2-2026-11-28';
+export const DATA_HASH_V1 = 'sanguo-v0.1-2026-11-26';
 
 export const STARTING_HEROES = ['huangzhong', 'machao'] as const;
 
@@ -418,6 +420,8 @@ export function enemyById(id: string): EnemyDef {
 export function levelMeta(id: string): LevelMeta {
   const m = LEVELS.find((x) => x.id === id);
   if (!m) throw new Error(`unknown level ${id}`);
+  const raw = (levelsFile as { levels: { id: string; start_gold?: number }[] }).levels.find((l) => l.id === id);
+  if (typeof raw?.start_gold === 'number') return { ...m, munition: raw.start_gold };
   return m;
 }
 

@@ -1,8 +1,8 @@
 /** Wave HP scale. Wave 1 is the printed base (×1). Mirrors the v1.1 curve the PRD kept. */
-export function waveHpScale(wave: number): number {
+export function waveHpScale(wave: number, growth = 1.15, mul = 1): number {
   const w = Math.max(1, Math.floor(wave));
-  if (w <= 10) return Math.pow(1.15, w - 1);
-  return Math.pow(1.15, 9) * Math.pow(1.085, w - 10);
+  const curve = w <= 10 ? Math.pow(growth, w - 1) : Math.pow(growth, 9) * Math.pow(1.085, w - 10);
+  return curve * mul;
 }
 
 /** Clear-wave munition. PRD: 30 × 1.12^波数, rounded. */

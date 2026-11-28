@@ -164,7 +164,7 @@ export interface RunStats {
 }
 
 export interface RunState {
-  version: 1;
+  version: 2;
   levelId: string;
   seed: number;
   time: number;
@@ -189,6 +189,7 @@ export interface RunState {
   spawns: SpawnSpec[];
   spawnIndex: number;
   spawnCd: number;
+  groupPos: number;
   eliteCursor: number;
   firstLeakHalved: boolean;
   fireUntil: number;
@@ -228,7 +229,7 @@ export interface MetaLevel {
 }
 
 export interface MetaSave {
-  version: 1;
+  version: 2;
   dataHash: string;
   checksum: string;
   talisman: number;
@@ -245,7 +246,7 @@ export interface MetaSave {
 }
 
 export interface RunEnvelope {
-  version: 1;
+  version: 2;
   dataHash: string;
   checksum: string;
   state: RunState;

@@ -115,13 +115,13 @@ describe('bonds and unlocks', () => {
     expect(unlocks(meta).slots).toBe(1);
     meta.levels['1-1'] = { stars: 1, clears: 1 };
     meta.levels['1-2'] = { stars: 1, clears: 1 };
-    expect(unlocks(meta).towers).toContain('junqi');
+    expect(unlocks(meta).towers).toEqual(['jianlou', 'toushi', 'juma', 'junqi']);
     expect(unlocks(meta).cards).toContain('wanjian');
     expect(unlocks(meta).slots).toBe(2);
     expect(unlocks(meta).branch).toBe(false);
     meta.levels['1-3'] = { stars: 1, clears: 1 };
     expect(unlocks(meta).branch).toBe(true);
-    expect(unlocks(meta).towers).toEqual(['jianlou', 'toushi', 'junqi', 'juma', 'qiangbing']);
+    expect(unlocks(meta).towers).toEqual(['jianlou', 'toushi', 'juma', 'qiangbing', 'junqi']);
   });
 });
 
@@ -129,7 +129,7 @@ describe('battle rules', () => {
   it('early start pays 2 munition per remaining second', () => {
     const sim = run('1-1');
     dispatch(sim, { type: 'start' });
-    expect(sim.state.munition).toBe(250);
+    expect(sim.state.munition).toBe(210);
     expect(sim.state.phase).toBe('combat');
   });
 
@@ -157,7 +157,7 @@ describe('battle rules', () => {
     const boss = sim.state.enemies.find((e) => e.boss)!;
     expect(boss.name).toBe('乱军都尉');
     expect(boss.allowPhases).toBe(false);
-    const expectHp = 270 * waveHpScale(10) * 0.82 * 0.6;
+    const expectHp = 270 * waveHpScale(10, 1.2, 1.15) * 0.82 * 0.6;
     expect(boss.maxHp).toBeCloseTo(expectHp, 4);
     boss.hp = boss.maxHp * 0.1;
     for (let i = 0; i < 40; i++) step(sim);
@@ -196,16 +196,16 @@ describe('battle rules', () => {
     const sim = run('1-1');
     const pad = sim.map.pads[0]!.id;
     dispatch(sim, { type: 'build', padId: pad, towerId: 'jianlou' });
-    expect(sim.state.munition).toBe(170);
+    expect(sim.state.munition).toBe(150);
     dispatch(sim, { type: 'sell', id: sim.state.towers[0]!.id });
-    expect(sim.state.munition).toBe(205);
+    expect(sim.state.munition).toBe(185);
     expect(sim.state.stats.builds).toBe(1);
     dispatch(sim, { type: 'build', padId: pad, towerId: 'jianlou' });
     const id = sim.state.towers[0]!.id;
     dispatch(sim, { type: 'upgrade', id });
     dispatch(sim, { type: 'sell', id });
     expect(sim.state.stats.builds).toBe(2);
-    expect(sim.state.munition).toBe(205 - 50 - 35 + 59);
+    expect(sim.state.munition).toBe(185 - 50 - 35 + 59);
   });
 
   it('刀盾兵 loses shield before life, and burn ticks life through a full shield', () => {
