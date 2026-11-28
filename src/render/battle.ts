@@ -56,7 +56,7 @@ class Field extends Phaser.Scene {
   private actors = new Map<string, Phaser.GameObjects.Sprite | Phaser.GameObjects.Rectangle>();
   private shadows = new Map<string, Phaser.GameObjects.Image>();
   private labels = new Map<string, Phaser.GameObjects.Text>();
-  private arrows: Phaser.GameObjects.Rectangle[] = [];
+  private arrows: Phaser.GameObjects.Container[] = [];
   private arrowNext = 0;
   private ready = false;
   private floatTimes: number[] = [];
@@ -177,7 +177,9 @@ class Field extends Phaser.Scene {
 
   private prepareArrows() {
     for (let i = 0; i < 12; i++) {
-      const arrow = this.add.rectangle(0, 0, 18, 3, 0xf2e0a4).setVisible(false).setDepth(LAYER.shot);
+      const outline = this.add.rectangle(0, 0, 46, 16, 0x1a1008);
+      const shaft = this.add.rectangle(-2, 0, 34, 8, 0xffe7a0);
+      const arrow = this.add.container(0, 0, [outline, shaft]).setVisible(false).setDepth(LAYER.shot);
       this.arrows.push(arrow);
     }
   }

@@ -12,7 +12,7 @@
 - QA-004：出征按钮去掉写死的 80px，用 `--tap` 90px。
 - QA-005：倍速写在 `localStorage` 键 `td.settings.speed`。刷新保留。不进 MetaSave，不进导出串。1-1 第 1 波按钮仍禁用。
 - QA-006：只替换 `src/data/levels.json` 里的 1-2、1-3、1-4。`hp_mul` 分别是 1.1、1.25、1.25，波数仍是 8、8、10。1-1 和 1-5 没动。`docs/td-prd-v0.2-25d.md` 用 V0.2.2 原文覆盖。
-- `npm run build` 写 `dist/version.json`（当前是 `0.2.0-m3` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
+- `npm run build` 写 `dist/version.json`（当前是 `0.2.0-m4` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
 
 ## 怎么跑
 
@@ -99,6 +99,20 @@ npx serve dist
 ![瞄准](v02m3-390-aim.png)
 
 ![箭矢](v02m3-390-arrow.png)
+
+## V0.2 M4
+
+- 关卡数据只把 1-4 的 `hp_growth` 从 1.20 改成 1.24，其余 29 关和规则字段不动。`createRun('1-4').level.hp_growth` 实测是 1.24。包内 `dist/data/levels.json` 与策划附件逐字段相同，SHA-256 `966447111b9dcacb716a728615af7702831da028b4398ff6cc06f28c5d61d5f3`。
+- `dataHash` 改为 `sanguo-v0.2.2-2026-11-28`。上一版 `sanguo-v0.2-2026-11-28` 和 V0.1 的账号进度（星级、虎符、武将、引导）会迁过来；没打完的那一局丢掉。
+- 火攻说明面板缩到左上一条。五个视口上它和 16 个塔基椭圆的面积交集都是 0。9×16 格中心仍全部落在 `#hit`。施放按钮高：360 为 45px，390 为 48.8px，412 为 51.5px，1280 为 56.3px，768 为 72px。
+- 箭矢改成深色描边加粗箭杆，对象池仍是 12，深度仍在地面单位之上。
+- 第 15 行到波次栏仍是 8.3 / 9 / 9.5 / 10.4 / 13.3 px。城门还在。Playwright 原用例通过。
+
+![瞄准](v02m4-390-aim.png)
+
+![箭矢](v02m4-390-arrow.png)
+
+![箭矢放大](v02m4-390-arrow-zoom.png)
 
 ## 已知问题
 

@@ -1,4 +1,4 @@
-import { DATA_HASH, DATA_HASH_V1 } from '../../data/catalog';
+import { DATA_HASH, DATA_HASH_V1, DATA_HASH_V2 } from '../../data/catalog';
 import { bondBetween } from '../../core/bonds';
 import { checksumValid, stampChecksum } from '../../core/hash';
 import { newMeta, unlocks } from '../../core/progress';
@@ -54,8 +54,10 @@ export function migrateMeta(value: unknown): MetaSave | null {
   if (!Array.isArray(raw.heroes) || typeof raw.talisman !== 'number') return null;
   const v1 = raw.version === 1 && raw.dataHash === DATA_HASH_V1;
   const v2 = raw.version === 2 && raw.dataHash === DATA_HASH;
-  if (!v1 && !v2) return null;
+  const v2prev = raw.version === 2 && raw.dataHash === DATA_HASH_V2;
+  if (!v1 && !v2 && !v2prev) return null;
   if (v2) return raw as MetaSave;
+  if (v2prev) return stampChecksum({ ...(raw as MetaSave), dataHash: DATA_HASH, checksum: '' });
   const next = newMeta();
   next.talisman = raw.talisman;
   next.heroes = raw.heroes.slice();
@@ -146,7 +148,7 @@ export function loadRun(): { sim: Sim; prewave: RunState | null; recovered: bool
     const env = raw as RunEnvelope;
     if (!checksumValid(env)) continue;
     const envVersion = (env as { version?: number }).version;
-    if (envVersion === 1 || env.dataHash === DATA_HASH_V1) {
+    if (envVersion === 1 || env.dataHash === DATA_HASH_V1 || env.dataHash === DATA_HASH_V2) {
       clearRun();
       discardedRunNotice = true;
       return null;

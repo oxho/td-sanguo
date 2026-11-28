@@ -6,6 +6,8 @@ import { createRun, dispatch, step } from '../src/core/sim';
 import { heroById } from '../src/data/catalog';
 import { animBook, anchorDropPx, firePointFromAnchor, frameOf, pxPerCell, refSpeed, strideRefSpeed, walkCycleCells } from '../src/render/spriteMeta';
 import mapM1 from '../src/data/maps/M1.json';
+import levelsFile from '../src/data/levels.json';
+import shippedLevels from '../public/data/levels.json';
 import { migrateMeta } from '../src/platform/web/storage';
 import { pickPad, towerTop } from '../src/view/hit';
 import { designToGround, worldToDesign } from '../src/view/projection';
@@ -138,7 +140,7 @@ describe('save migration', () => {
     });
     const next = migrateMeta(v1);
     expect(next?.version).toBe(2);
-    expect(next?.dataHash).toBe('sanguo-v0.2-2026-11-28');
+    expect(next?.dataHash).toBe('sanguo-v0.2.2-2026-11-28');
     expect(next?.talisman).toBe(66);
     expect(next?.heroes).toEqual(['huangzhong', 'machao']);
     expect(next?.levels['1-1']?.stars).toBe(3);
@@ -146,6 +148,30 @@ describe('save migration', () => {
     expect((next?.settings as { speed?: number }).speed).toBeUndefined();
     const fresh = newMeta(1);
     expect(fresh.version).toBe(2);
+  });
+
+  it('keeps progress from the previous v2 hash', () => {
+    const prev = stampChecksum({
+      version: 2,
+      dataHash: 'sanguo-v0.2-2026-11-28',
+      checksum: '',
+      talisman: 12,
+      heroes: ['huangzhong'],
+      pity: 1,
+      firstSingleFree: false,
+      rng: 4,
+      levels: { '1-1': { stars: 2, clears: 1 }, '1-4': { stars: 1, clears: 1 } },
+      tutorial: { skipped: true, done11: true, tip13: false, tip14: false, tipHero: false },
+      codex: [],
+      settings: { muted: false },
+      dailyChallengeUnlocked: false,
+      endlessBest: 0,
+    });
+    const next = migrateMeta(prev);
+    expect(next?.dataHash).toBe('sanguo-v0.2.2-2026-11-28');
+    expect(next?.talisman).toBe(12);
+    expect(next?.levels['1-4']?.stars).toBe(1);
+    expect(next?.heroes).toEqual(['huangzhong']);
   });
 });
 
@@ -155,6 +181,8 @@ describe('V0.2.2 level pressure', () => {
   }
 
   it('raises hp_mul and keeps the wave counts on 1-2, 1-3 and 1-4', () => {
+    expect(levelsFile.levels).toEqual(shippedLevels);
+    expect(open('1-4').level.hp_growth).toBe(1.24);
     const untouched = [
       ['1-1', 1, 6],
       ['1-5', 1.15, 10],
@@ -167,7 +195,7 @@ describe('V0.2.2 level pressure', () => {
     const tuned = [
       ['1-2', 1.1, 8, 1.18],
       ['1-3', 1.25, 8, 1.18],
-      ['1-4', 1.25, 10, 1.2],
+      ['1-4', 1.25, 10, 1.24],
     ] as const;
     for (const [id, mul, waves, growth] of tuned) {
       const sim = open(id);
