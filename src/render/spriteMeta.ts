@@ -76,6 +76,15 @@ export function heightAboveGroundPx(kind: 'enemy' | 'tower', frameName: string):
   return Math.max(0, groundY - frame.spriteSourceSize.y);
 }
 
+/** Arrow launch point in source pixels, relative to the pad-center anchor. */
+export function firePointFromAnchor(): { x: number; y: number } {
+  const point = actorMeta('tower').firePoint as { fromAnchorPx?: number[] } | undefined;
+  const pair = point?.fromAnchorPx;
+  const x = Number(pair?.[0]);
+  const y = Number(pair?.[1]);
+  return { x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 0 };
+}
+
 export function animBook(kind: 'enemy' | 'tower'): Record<string, { frames: string[]; frameRate: number; repeat: number; releaseFrame?: string }> {
   const anims = actorMeta(kind).anims;
   return (anims && typeof anims === 'object' ? anims : {}) as Record<string, { frames: string[]; frameRate: number; repeat: number; releaseFrame?: string }>;

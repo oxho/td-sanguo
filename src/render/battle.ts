@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { heroById } from '../data/catalog';
 import { step, type Sim } from '../core/sim';
 import type { EnemyState, SimEvent } from '../core/types';
-import { anchorDropPx, animBook, pxPerCell, strideRefSpeed } from './spriteMeta';
+import { anchorDropPx, animBook, firePointFromAnchor, pxPerCell, strideRefSpeed } from './spriteMeta';
 import bgMeta from '../../public/assets/map/bg_M1.json';
 import { LAYER, depthKey, flyingDepth, infoDepth } from '../view/depth';
 import { rangePolygon, scaleAt, unitPixels, worldToCanvas } from '../view/projection';
@@ -56,6 +56,8 @@ class Field extends Phaser.Scene {
   private actors = new Map<string, Phaser.GameObjects.Sprite | Phaser.GameObjects.Rectangle>();
   private shadows = new Map<string, Phaser.GameObjects.Image>();
   private labels = new Map<string, Phaser.GameObjects.Text>();
+  private arrows: Phaser.GameObjects.Rectangle[] = [];
+  private arrowNext = 0;
   private ready = false;
   private floatTimes: number[] = [];
   private killTimes: number[] = [];
@@ -71,6 +73,7 @@ class Field extends Phaser.Scene {
     this.load.atlas('atlas_tower_0', 'assets/atlas/atlas_tower_0.webp', 'assets/atlas/atlas_tower_0.json');
     this.load.image('bg_M1', 'assets/map/bg_M1.webp');
     this.load.image('fx_shadow', 'assets/atlas/fx_shadow.webp');
+    this.load.image('gate', 'assets/sprites/gate.png');
   }
 
   create() {
@@ -86,6 +89,8 @@ class Field extends Phaser.Scene {
     img.setPosition(mirror ? bx + bw * bg.scaleToDesign : bx, by);
     img.setFlipX(mirror);
     img.setDepth(LAYER.ground);
+    this.placeGate();
+    this.prepareArrows();
     this.markers = this.add.graphics().setDepth(LAYER.marker);
     this.bars = this.add.graphics().setDepth(infoDepth(0));
     this.ready = true;
@@ -130,6 +135,10 @@ class Field extends Phaser.Scene {
             if (sprite.active && this.anims.exists('t_jianlou_lv1_idle')) sprite.play('t_jianlou_lv1_idle');
           });
         }
+        const tx = Number(ev.tx);
+        const ty = Number(ev.ty);
+        const tower = this.sim.state.towers.find((t) => t.id === ev.id);
+        if (tower && Number.isFinite(tx) && Number.isFinite(ty)) this.launchArrow(tower.x, tower.y, tx, ty);
       }
       if (ev.type !== 'rout' || typeof ev.x !== 'number' || typeof ev.y !== 'number') continue;
       this.killTimes = this.killTimes.filter((t) => now - t <= 3);
@@ -152,6 +161,54 @@ class Field extends Phaser.Scene {
         this.killTimes = [];
       }
     }
+  }
+
+  /** Gate art sits on the row-15 foot. Width stays inside the gap to p15 so the pad ellipse is still visible. */
+  private placeGate() {
+    if (!this.textures.exists('gate')) return;
+    const gate = this.sim.map.gate;
+    const foot = at(gate.x, gate.y, 0);
+    const img = this.add.image(foot.x, foot.y, 'gate').setOrigin(0.5, 1);
+    const width = unitPixels(gate.y, 2.2, 1).w;
+    const aspect = img.height > 0 ? img.width / img.height : 1;
+    img.setDisplaySize(width, aspect > 0 ? width / aspect : width);
+    img.setDepth(depthKey(gate.y, 'building', gate.x, 0));
+  }
+
+  private prepareArrows() {
+    for (let i = 0; i < 12; i++) {
+      const arrow = this.add.rectangle(0, 0, 18, 3, 0xf2e0a4).setVisible(false).setDepth(LAYER.shot);
+      this.arrows.push(arrow);
+    }
+  }
+
+  /** Cosmetic flight from the authored fire point. Damage is already resolved. */
+  private launchArrow(towerX: number, towerY: number, targetX: number, targetY: number) {
+    const arrow = this.arrows[this.arrowNext % this.arrows.length];
+    this.arrowNext += 1;
+    if (!arrow) return;
+    const scale = shownScale('tower', towerY);
+    const anchor = at(towerX, towerY, 0);
+    const point = firePointFromAnchor();
+    const from = { x: anchor.x + point.x * scale, y: anchor.y + point.y * scale };
+    const to = at(targetX, targetY, 0.4);
+    this.tweens.killTweensOf(arrow);
+    const token = (Number(arrow.getData('token')) || 0) + 1;
+    arrow.setData('token', token);
+    arrow.setVisible(true);
+    arrow.setPosition(from.x, from.y);
+    arrow.setRotation(Math.atan2(to.y - from.y, to.x - from.x));
+    arrow.setDepth(LAYER.shot);
+    const speed = (this.game as Phaser.Game & { __speed?: number }).__speed ?? 1;
+    this.tweens.add({
+      targets: arrow,
+      x: to.x,
+      y: to.y,
+      duration: 260 / Math.max(speed, 0.25),
+      onComplete: () => {
+        if (arrow.getData('token') === token) arrow.setVisible(false);
+      },
+    });
   }
 
   private strokePoly(points: { x: number; y: number }[], color: number) {

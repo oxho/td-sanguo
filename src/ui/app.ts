@@ -612,8 +612,8 @@ export function boot() {
       if (aiming) {
         const def = CARDS.find((c) => c.id === s.cards[aimIndex]?.id);
         overlay.innerHTML = `<div class="float-panel panel"><strong>${def?.name ?? ''}</strong>
-          <p class="small">圈在手指上方 1 格。点空白或取消不算使用，不进冷却。</p>
-          <div class="row"><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button></div></div>`;
+          <p class="small">圈在手指上方 1 格。点空白或取消不算使用，不进冷却。</p></div>
+          <div class="aim-actions"><button class="btn" id="cast">施放</button><button class="btn ink" id="unaim">取消</button></div>`;
         overlay.querySelector('#cast')?.addEventListener('click', () => {
           const res = act({ type: 'card', index: aimIndex, x: aim.x, y: aim.y });
           if (res.ok && stepName === 'card') { stepName = 'done'; meta.tutorial.done11 = true; persist(); }

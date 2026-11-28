@@ -170,7 +170,9 @@ h1, h2, .gold {
 .skill .cd { position: absolute; inset: 0; background: rgba(0,0,0,.55); display: grid; place-items: center; font-size: 22px; border-radius: 9px; }
 .ring { width: 78px; height: 78px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--gold) var(--p), #3a2a1c 0); }
 .ring .hero-face { width: 100%; height: 100%; }
-.float-panel { position: absolute; left: 12px; top: 108px; width: 280px; bottom: auto; }
+.float-panel { position: absolute; left: 12px; top: 108px; width: 220px; bottom: auto; }
+.aim-actions { position: absolute; left: 16px; top: 1072px; display: flex; gap: 8px; z-index: 8; pointer-events: none; }
+.hud .aim-actions button { pointer-events: auto; }
 .hud .float-panel.panel { pointer-events: none; }
 .hud .float-panel button, .hud .float-panel .card { pointer-events: auto; }
 .guide-tip { position: absolute; left: 292px; right: 12px; top: 104px; z-index: 7; }

@@ -4,7 +4,7 @@ import { newMeta } from '../src/core/progress';
 import { waveHpScale } from '../src/core/formula';
 import { createRun, dispatch, step } from '../src/core/sim';
 import { heroById } from '../src/data/catalog';
-import { animBook, anchorDropPx, frameOf, pxPerCell, refSpeed, strideRefSpeed, walkCycleCells } from '../src/render/spriteMeta';
+import { animBook, anchorDropPx, firePointFromAnchor, frameOf, pxPerCell, refSpeed, strideRefSpeed, walkCycleCells } from '../src/render/spriteMeta';
 import mapM1 from '../src/data/maps/M1.json';
 import { migrateMeta } from '../src/platform/web/storage';
 import { pickPad, towerTop } from '../src/view/hit';
@@ -105,6 +105,9 @@ describe('pacing data', () => {
     const tower = frameOf('tower', 't_jianlou_lv1_idle_01');
     expect(tower?.pivot.y).toBeCloseTo(0.73645, 5);
     expect(Math.abs(anchorDropPx('tower', 't_jianlou_lv1_idle_01'))).toBeLessThan(0.05);
+    const muzzle = firePointFromAnchor();
+    expect(muzzle.x).toBeCloseTo(25.1, 2);
+    expect(muzzle.y).toBeCloseTo(-145.33, 2);
   });
 
   it('shortens the two starter hero cooldowns and they start ready', () => {

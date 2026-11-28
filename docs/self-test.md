@@ -12,7 +12,7 @@
 - QA-004：出征按钮去掉写死的 80px，用 `--tap` 90px。
 - QA-005：倍速写在 `localStorage` 键 `td.settings.speed`。刷新保留。不进 MetaSave，不进导出串。1-1 第 1 波按钮仍禁用。
 - QA-006：只替换 `src/data/levels.json` 里的 1-2、1-3、1-4。`hp_mul` 分别是 1.1、1.25、1.25，波数仍是 8、8、10。1-1 和 1-5 没动。`docs/td-prd-v0.2-25d.md` 用 V0.2.2 原文覆盖。
-- `npm run build` 写 `dist/version.json`（`0.2.0-m2` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
+- `npm run build` 写 `dist/version.json`（当前是 `0.2.0-m3` 加 `git rev-parse --short HEAD`）。设置页关于栏读取它。
 
 ## 怎么跑
 
@@ -85,6 +85,20 @@ npx serve dist
 - `public/assets/map/bg_M1.webp` 和 `bg_M1.json`
 
 不要再引用 `bg_M1_0` / `bg_M1_1`。
+
+## V0.2 M3
+
+- 城门改画 `assets/sprites/gate.png`。脚落在第 15 行城门点，宽 2.2 格，随 `s(y)` 缩放，深度用 `depthKey` 的建筑层。不接点击，点选仍走 `#hit`。390 下点 p15 打开 `M1-p15`。
+- 火攻的「施放 / 取消」挪到波次栏里。360 / 390 / 1280 的 9×16 格中心 `elementFromPoint` 全部是 `#hit`。按钮高：360 为 45px，390 为 48.75px，1280 为 56.25px。
+- 箭楼 `shot` 时从 `firePoint.fromAnchorPx`（25.1, −145.33）乘显示缩放发出一条箭，飞到当时的目标点后消失。对象池 12 支，深度在地面单位之上。没有物理。
+- 1-4 的 A9 数值这轮没改。
+- 第 15 行到波次栏：360×800 为 8.3px，390×844 为 9px，412×915 为 9.5px，1280×800 为 10.4px，768×1024 为 13.3px。Playwright 原用例通过。
+
+![城门](v02m3-390-gate.png)
+
+![瞄准](v02m3-390-aim.png)
+
+![箭矢](v02m3-390-arrow.png)
 
 ## 已知问题
 
